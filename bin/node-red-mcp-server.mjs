@@ -23,6 +23,7 @@ const options = {
   nodeRedUrl: process.env.NODE_RED_URL,
   nodeRedToken: process.env.NODE_RED_TOKEN,
   verbose: false,
+  readOnly: parseBoolean(process.env.MCP_READ_ONLY),
   backup: {
     backupPath: process.env.MCP_BACKUP_PATH,
     maxBackups: process.env.MCP_MAX_BACKUPS
@@ -30,6 +31,10 @@ const options = {
       : undefined,
   },
 };
+
+function parseBoolean(value) {
+  return ["1", "true", "yes", "on"].includes(String(value).toLowerCase());
+}
 
 // Process arguments
 for (let i = 0; i < args.length; i++) {
@@ -41,6 +46,8 @@ for (let i = 0; i < args.length; i++) {
     options.nodeRedToken = args[++i];
   } else if (arg === "--verbose" || arg === "-v") {
     options.verbose = true;
+  } else if (arg === "--read-only") {
+    options.readOnly = true;
   } else if (arg === "--backup-path") {
     options.backup.backupPath = args[++i];
   } else if (arg === "--max-backups") {
@@ -55,6 +62,7 @@ Options:
   -u, --url <url>           Node-RED base URL (default: http://localhost:1880)
   -t, --token <token>       API access token
   -v, --verbose             Enable verbose logging
+  --read-only               Register only tools that do not mutate Node-RED
   --backup-path <path>      Custom backup directory path
   --max-backups <number>    Maximum number of backups to keep (default: 10)
   -h, --help               Show this help message
@@ -63,6 +71,7 @@ Options:
 Environment Variables:
   NODE_RED_URL             Node-RED base URL
   NODE_RED_TOKEN           API access token  
+  MCP_READ_ONLY            Register only tools that do not mutate Node-RED
   MCP_BACKUP_PATH          Custom backup directory path
   MCP_MAX_BACKUPS          Maximum number of backups to keep
   NODE_MCP_PREFIX          MCP server prefix
