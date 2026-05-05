@@ -56,6 +56,7 @@ Create a `.env` file:
 NODE_RED_URL=http://localhost:1880
 NODE_RED_TOKEN=YOUR_TOKEN
 NODE_MCP_PREFIX=/api/v1  # Optional: API path prefix (e.g., /nodered-api /eventflow-api)
+MCP_READ_ONLY=true       # Optional: register only non-mutating tools
 MCP_BACKUP_PATH=/custom/backup/path
 MCP_MAX_BACKUPS=10
 ```
@@ -145,6 +146,7 @@ await server.start();
 | `--url`         | `-u`  | Node-RED base URL                               |
 | `--token`       | `-t`  | API access token                                |
 | `--verbose`     | `-v`  | Enable verbose logging                          |
+| `--read-only`   |       | Register only tools that do not mutate Node-RED |
 | `--backup-path` |       | Custom backup directory path                    |
 | `--max-backups` |       | Maximum number of backups to keep (default: 10) |
 | `--help`        | `-h`  | Show help                                       |
@@ -156,6 +158,7 @@ await server.start();
 | ----------------- | --------------------------------- |
 | `NODE_RED_URL`    | URL of your Node-RED instance     |
 | `NODE_RED_TOKEN`  | API access token                  |
+| `MCP_READ_ONLY`   | Register only non-mutating tools  |
 | `MCP_BACKUP_PATH` | Custom backup directory path      |
 | `MCP_MAX_BACKUPS` | Maximum number of backups to keep |
 | `NODE_MCP_PREFIX` | API path prefix for reverse proxy |
