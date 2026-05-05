@@ -22,6 +22,9 @@ const args = process.argv.slice(2);
 const options = {
   nodeRedUrl: process.env.NODE_RED_URL,
   nodeRedToken: process.env.NODE_RED_TOKEN,
+  nodeRedAuthHeader: process.env.NODE_RED_AUTH_HEADER,
+  nodeRedBasicUser: process.env.NODE_RED_BASIC_USER,
+  nodeRedBasicPassword: process.env.NODE_RED_BASIC_PASSWORD,
   verbose: false,
   readOnly: parseBoolean(process.env.MCP_READ_ONLY),
   backup: {
@@ -44,6 +47,12 @@ for (let i = 0; i < args.length; i++) {
     options.nodeRedUrl = args[++i];
   } else if (arg === "--token" || arg === "-t") {
     options.nodeRedToken = args[++i];
+  } else if (arg === "--auth-header") {
+    options.nodeRedAuthHeader = args[++i];
+  } else if (arg === "--basic-user") {
+    options.nodeRedBasicUser = args[++i];
+  } else if (arg === "--basic-password") {
+    options.nodeRedBasicPassword = args[++i];
   } else if (arg === "--verbose" || arg === "-v") {
     options.verbose = true;
   } else if (arg === "--read-only") {
@@ -61,6 +70,9 @@ Usage: node-red-mcp [options]
 Options:
   -u, --url <url>           Node-RED base URL (default: http://localhost:1880)
   -t, --token <token>       API access token
+  --auth-header <value>     Complete Authorization header value
+  --basic-user <user>       Basic auth username
+  --basic-password <pass>   Basic auth password
   -v, --verbose             Enable verbose logging
   --read-only               Register only tools that do not mutate Node-RED
   --backup-path <path>      Custom backup directory path
@@ -71,6 +83,9 @@ Options:
 Environment Variables:
   NODE_RED_URL             Node-RED base URL
   NODE_RED_TOKEN           API access token  
+  NODE_RED_AUTH_HEADER     Complete Authorization header value
+  NODE_RED_BASIC_USER      Basic auth username
+  NODE_RED_BASIC_PASSWORD  Basic auth password
   MCP_READ_ONLY            Register only tools that do not mutate Node-RED
   MCP_BACKUP_PATH          Custom backup directory path
   MCP_MAX_BACKUPS          Maximum number of backups to keep

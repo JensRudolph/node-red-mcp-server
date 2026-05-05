@@ -55,6 +55,8 @@ Create a `.env` file:
 ```
 NODE_RED_URL=http://localhost:1880
 NODE_RED_TOKEN=YOUR_TOKEN
+NODE_RED_BASIC_USER=YOUR_BASIC_AUTH_USER
+NODE_RED_BASIC_PASSWORD=YOUR_BASIC_AUTH_PASSWORD
 NODE_MCP_PREFIX=/api/v1  # Optional: API path prefix (e.g., /nodered-api /eventflow-api)
 MCP_READ_ONLY=true       # Optional: register only non-mutating tools
 MCP_BACKUP_PATH=/custom/backup/path
@@ -145,6 +147,9 @@ await server.start();
 | --------------- | ----- | ----------------------------------------------- |
 | `--url`         | `-u`  | Node-RED base URL                               |
 | `--token`       | `-t`  | API access token                                |
+| `--auth-header` |       | Complete Authorization header value             |
+| `--basic-user`  |       | Basic auth username                             |
+| `--basic-password` |    | Basic auth password                             |
 | `--verbose`     | `-v`  | Enable verbose logging                          |
 | `--read-only`   |       | Register only tools that do not mutate Node-RED |
 | `--backup-path` |       | Custom backup directory path                    |
@@ -158,6 +163,9 @@ await server.start();
 | ----------------- | --------------------------------- |
 | `NODE_RED_URL`    | URL of your Node-RED instance     |
 | `NODE_RED_TOKEN`  | API access token                  |
+| `NODE_RED_AUTH_HEADER` | Complete Authorization header value |
+| `NODE_RED_BASIC_USER` | Basic auth username            |
+| `NODE_RED_BASIC_PASSWORD` | Basic auth password          |
 | `MCP_READ_ONLY`   | Register only non-mutating tools  |
 | `MCP_BACKUP_PATH` | Custom backup directory path      |
 | `MCP_MAX_BACKUPS` | Maximum number of backups to keep |
