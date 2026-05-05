@@ -4,27 +4,30 @@
 
 # @supcon-international/node-red-mcp-server
 
-Model Context Protocol (MCP) server for Node-RED — allows language models (like Claude, GPT) to interact with Node-RED through a standardized API.
+Model Context Protocol (MCP) server for Node-RED. It lets MCP clients such as Claude Desktop, Codex, or other LLM agents inspect and manage Node-RED through the Node-RED Admin API.
 
-> This is an enhanced version based on [karavaev-evgeniy/node-red-mcp-server](https://github.com/karavaev-evgeniy/node-red-mcp-server)
+> This is an enhanced version based on [karavaev-evgeniy/node-red-mcp-server](https://github.com/karavaev-evgeniy/node-red-mcp-server).
 
-## Description
+## Features
 
-`node-red-mcp-server` Node-RED-MCP-Server for handling complex Node-RED tasks autonomously
+- Retrieve and update Node-RED flows through MCP
+- Safe single-flow updates using Node-RED API v2 revision locking
+- Optional full-flow updates using revision locking
+- Read-only mode for safe first use
+- Bearer token, full Authorization header, and Basic auth support
+- Optional API path prefix for reverse proxies
+- Configurable Node-RED API request timeout
+- Multi-version flow backup system with checksum validation
+- Optional automatic flow backup before mutating tools
+- Restore flows from a named backup using optimistic locking
+- List installed Node-RED nodes with node names, help content, and module names
+- Install, inspect, enable, or disable Node-RED node modules
+- Manage tabs, search nodes, trigger inject nodes, inspect settings, and get diagnostics
 
-### Enhanced Key Features
+## Requirements
 
-- Retrieve and update Node-RED flows via MCP
-- Multi-version flow backup system with integrity validation
-- Add detailed argument descriptions for tools, making it better for LLM usage and handling complicated tasks
-- get available nodes information (name,help,module name) instead of raw code
-- install new node via llm
-- check module and node set module information and manage states
-- Manage tabs and individual nodes
-- Search for nodes by type or properties
-- Access settings and runtime state
-- Trigger inject nodes remotely
-- Output and visualize flows and stats
+- Node.js 18.14.1 or newer
+- A running Node-RED instance with HTTP Admin API access
 
 ## Installation
 
@@ -52,15 +55,22 @@ node-red-mcp --url http://localhost:1880 --token YOUR_TOKEN
 
 Create a `.env` file:
 
-```
+```ini
 NODE_RED_URL=http://localhost:1880
 NODE_RED_TOKEN=YOUR_TOKEN
-NODE_RED_BASIC_USER=YOUR_BASIC_AUTH_USER
-NODE_RED_BASIC_PASSWORD=YOUR_BASIC_AUTH_PASSWORD
-NODE_MCP_PREFIX=/api/v1  # Optional: API path prefix (e.g., /nodered-api /eventflow-api)
-MCP_READ_ONLY=true       # Optional: register only non-mutating tools
+NODE_RED_AUTH_HEADER=
+NODE_RED_BASIC_USER=
+NODE_RED_BASIC_PASSWORD=
+NODE_RED_TIMEOUT_MS=30000
+NODE_MCP_PREFIX=/api/v1
+
+MCP_VERBOSE=false
+MCP_READ_ONLY=true
+MCP_BACKUPS_ENABLED=true
 MCP_BACKUP_PATH=/custom/backup/path
 MCP_MAX_BACKUPS=10
+MCP_BACKUP_AUTO_CLEANUP=true
+MCP_AUTO_BACKUP=false
 ```
 
 Then run:
@@ -69,25 +79,18 @@ Then run:
 node-red-mcp
 ```
 
-### Integration with Claude or Other LLMs
-
-1. Start the MCP server or configure Claude Desktop to start it automatically with the tool configuration below.
-
-2. Configure Claude Desktop:
-
-   - Open Claude Desktop app
-   - Go to Settings → Advanced → Tool Configuration
-   - Add a new tool configuration:
+### Claude Desktop Configuration
 
 ```json
 {
   "node-red": {
     "command": "npx",
     "args": ["@supcon-international/node-red-mcp-server", "--verbose"],
-    "env(Optional,if None then use default value)": {
+    "env": {
       "NODE_RED_URL": "http://your-node-red-url:1880",
       "NODE_RED_TOKEN": "your-token-if-needed",
       "NODE_MCP_PREFIX": "/nodered-api",
+      "MCP_READ_ONLY": "true",
       "MCP_BACKUP_PATH": "/custom/backup/path",
       "MCP_MAX_BACKUPS": "10"
     }
@@ -95,7 +98,7 @@ node-red-mcp
 }
 ```
 
-or
+For a local checkout:
 
 ```json
 {
@@ -105,27 +108,16 @@ or
       "/path/to/node-red-mcp-server/bin/node-red-mcp-server.mjs",
       "--verbose"
     ],
-    "env(Optional,if None then use default value)": {
+    "env": {
       "NODE_RED_URL": "http://your-node-red-url:1880",
       "NODE_RED_TOKEN": "your-token-if-needed",
-      "NODE_MCP_PREFIX": "/nodered-api",
-      "MCP_BACKUP_PATH": "/custom/backup/path",
-      "MCP_MAX_BACKUPS": "10"
+      "NODE_MCP_PREFIX": "/nodered-api"
     }
   }
 }
 ```
 
-- Replace `/path/to/node-red-mcp-server` with the actual path to your installation
-- Update `NODE_RED_URL` to point to your Node-RED instance
-- Set `NODE_RED_TOKEN` if your Node-RED instance requires authentication
-- Set `NODE_MCP_PREFIX` if your Node-RED API is behind a reverse proxy or requires a path prefix (e.g., `/nodered-api`, `/eventflow-api`). If not set, it defaults to the standard Node-RED API paths
-
-3. After configuration, Claude can interact with your Node-RED instance through the MCP tools.
-
-For more information about the Model Context Protocol, visit the [official MCP documentation](https://modelcontextprotocol.io/introduction).
-
-### Programmatic Usage
+## Programmatic Usage
 
 ```javascript
 import { createServer } from "node-red-mcp-server";
@@ -133,7 +125,9 @@ import { createServer } from "node-red-mcp-server";
 const server = createServer({
   nodeRedUrl: "http://localhost:1880",
   nodeRedToken: "YOUR_TOKEN",
+  nodeRedTimeoutMs: 30000,
   verbose: true,
+  readOnly: true,
 });
 
 await server.start();
@@ -143,90 +137,101 @@ await server.start();
 
 ### CLI Parameters
 
-| Parameter       | Short | Description                                     |
-| --------------- | ----- | ----------------------------------------------- |
-| `--url`         | `-u`  | Node-RED base URL                               |
-| `--token`       | `-t`  | API access token                                |
-| `--auth-header` |       | Complete Authorization header value             |
-| `--basic-user`  |       | Basic auth username                             |
-| `--basic-password` |    | Basic auth password                             |
-| `--verbose`     | `-v`  | Enable verbose logging                          |
-| `--read-only`   |       | Register only tools that do not mutate Node-RED |
-| `--backup-path` |       | Custom backup directory path                    |
-| `--max-backups` |       | Maximum number of backups to keep (default: 10) |
-| `--help`        | `-h`  | Show help                                       |
-| `--version`     | `-V`  | Show version number                             |
+| Parameter | Short | Description |
+| --- | --- | --- |
+| `--url` | `-u` | Node-RED base URL |
+| `--token` | `-t` | API access token |
+| `--auth-header` | | Complete Authorization header value |
+| `--basic-user` | | Basic auth username |
+| `--basic-password` | | Basic auth password |
+| `--api-prefix` | | API path prefix for reverse proxies |
+| `--timeout` | | Node-RED request timeout in milliseconds |
+| `--verbose` | `-v` | Enable verbose logging to stderr |
+| `--read-only` | | Register only tools that do not mutate Node-RED |
+| `--no-backups` | | Disable local backup tools |
+| `--auto-backup` | | Create a flow backup before mutating tools |
+| `--backup-path` | | Custom backup directory path |
+| `--max-backups` | | Maximum number of backups to keep |
+| `--help` | `-h` | Show help |
+| `--version` | `-V` | Show version number |
 
 ### Environment Variables
 
-| Variable          | Description                       |
-| ----------------- | --------------------------------- |
-| `NODE_RED_URL`    | URL of your Node-RED instance     |
-| `NODE_RED_TOKEN`  | API access token                  |
+| Variable | Description |
+| --- | --- |
+| `NODE_RED_URL` | URL of your Node-RED instance |
+| `NODE_RED_TOKEN` | API access token |
 | `NODE_RED_AUTH_HEADER` | Complete Authorization header value |
-| `NODE_RED_BASIC_USER` | Basic auth username            |
-| `NODE_RED_BASIC_PASSWORD` | Basic auth password          |
-| `MCP_READ_ONLY`   | Register only non-mutating tools  |
-| `MCP_BACKUP_PATH` | Custom backup directory path      |
+| `NODE_RED_BASIC_USER` | Basic auth username |
+| `NODE_RED_BASIC_PASSWORD` | Basic auth password |
+| `NODE_RED_TIMEOUT_MS` | Node-RED request timeout in milliseconds |
+| `NODE_MCP_PREFIX` | API path prefix for reverse proxies |
+| `MCP_VERBOSE` | Enable verbose logging |
+| `MCP_READ_ONLY` | Register only non-mutating Node-RED tools |
+| `MCP_BACKUPS_ENABLED` | Enable or disable local backup tools |
+| `MCP_BACKUP_PATH` | Custom backup root directory |
 | `MCP_MAX_BACKUPS` | Maximum number of backups to keep |
-| `NODE_MCP_PREFIX` | API path prefix for reverse proxy |
+| `MCP_BACKUP_AUTO_CLEANUP` | Remove old backups when the limit is exceeded |
+| `MCP_AUTO_BACKUP` | Create a flow backup before mutating tools |
 
 ## MCP Tools
 
 ### Flow Tools
 
-- `get-flows` — Get all flows
-- `update-flows` — Update all flows
-- `get-flow` — Get a specific flow by ID
-- `update-flow` — Update a specific flow by ID
-- `list-tabs` — List all tabs (workspaces)
-- `create-flow` — Create a new flow tab
-- `delete-flow` — Delete a flow tab
-- `get-flows-state` — Get deployment state
-- `set-flows-state` — Change deployment state
-- `get-flows-formatted` — Get human-readable flow list
-- `visualize-flows` — Generate graph-like view of flows
+- `get-flows` - Get all flows
+- `update-flows` - Safely update the complete flow set with optimistic locking
+- `get-flow` - Get a specific flow by ID
+- `update-flow` - Safely update a specific flow by ID
+- `list-tabs` - List all tabs
+- `create-flow` - Create a new flow tab
+- `delete-flow` - Delete a flow tab
+- `get-flows-state` - Get deployment state
+- `set-flows-state` - Change deployment state
+- `get-flows-formatted` - Get formatted flow statistics
+- `visualize-flows` - Generate a graph-like flow summary
+
+Structured arguments are preferred for mutating flow tools. For backwards compatibility, JSON string arguments such as `flowsJson`, `flowJson`, and `stateJson` are still accepted.
 
 ### Node Tools
 
-- `inject` — Trigger an inject node
-- `get-available-nodes` — List available node summary information (name help-doc module)
-- `install-node-module` - install new node module
-- `get-node-detailed-info` — Detailed info about a node module
-- `get-node-set-detailed-info` - Detailed source code about a node module set
-- `toggle-node-module` — Enable/disable a node module
-- `toggle-node-module-set` - Enable/disable a node module set
-- `find-nodes-by-type` — Locate nodes by type
-- `search-nodes` — Find nodes by name or property
+- `inject` - Trigger an inject node
+- `get-available-nodes` - List installed node names, help content, and modules
+- `install-node-module` - Install a new node module
+- `get-node-detailed-info` - Get detailed info about a node module
+- `get-node-set-detailed-info` - Get detailed info about a node module set
+- `toggle-node-module` - Enable or disable a node module
+- `toggle-node-module-set` - Enable or disable a node module set
+- `find-nodes-by-type` - Locate nodes by type
+- `search-nodes` - Find nodes by name or property
 
 ### Backup Tools
 
-- `backup-flows` — Create a named backup of current flows with optional reason
-- `list-backups` — List all available flow backups with details
-- `get-backup-flows` — Get the specific flows content from a backup by name
-- `backup-health` — Check backup system health and provide recommendations
+- `backup-flows` - Create a named backup of current flows
+- `list-backups` - List available flow backups
+- `get-backup-flows` - Get flow content from a backup by name
+- `restore-backup-flows` - Restore flows from a backup using optimistic locking
+- `backup-health` - Check backup system health
+
+Backup names must use only letters, numbers, underscores, and hyphens. Backup files are stored under `.mcp-backups` inside the configured backup root.
 
 ### Settings Tools
 
-- `get-settings` — Get Node-RED runtime settings
-- `get-diagnostics` — Fetch diagnostics info
+- `get-settings` - Get Node-RED runtime settings
+- `get-diagnostics` - Fetch diagnostics info
 
 ### Utility Tools
 
-- `api-help` — Show Node-RED API help
+- `api-help` - Show Node-RED API help
 
-## Requirements
+## Safety Notes
 
-- Node.js v16 or newer
-- A running Node-RED instance with HTTP API access
+- Start with `MCP_READ_ONLY=true` when connecting an LLM to an important Node-RED instance for the first time.
+- Enable `MCP_AUTO_BACKUP=true` when you want a local flow backup before mutating tools run.
+- `restore-backup-flows`, `update-flows`, and `update-flow` use Node-RED API v2 revision locking to avoid overwriting concurrent changes silently.
+- Verbose logs are written to stderr so stdout remains reserved for the MCP stdio transport.
 
 ## License
 
 MIT License
+
 Copyright (c) 2025
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

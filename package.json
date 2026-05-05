@@ -9,11 +9,11 @@
     "node-red-mcp": "./bin/node-red-mcp-server.mjs"
   },
   "scripts": {
-    "test": "node test/flow-utils.test.mjs",
+    "test": "node test/all.test.mjs",
     "start": "node ./bin/node-red-mcp-server.mjs"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.14.1"
   },
   "keywords": [
     "node-red",
@@ -35,9 +35,9 @@
   },
   "homepage": "https://github.com/supcon-international/node-red-mcp-server.git#readme",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.0",
-    "axios": "^1.9.0",
-    "dotenv": "^16.5.0",
-    "zod": "^3.24.4"
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "axios": "^1.16.0",
+    "dotenv": "^16.6.1",
+    "zod": "^3.25.76"
   }
 }
