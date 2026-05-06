@@ -11,7 +11,8 @@ Model Context Protocol (MCP) server for Node-RED. It lets MCP clients such as Cl
 ## Features
 
 - Retrieve and update Node-RED flows through MCP
-- Safe single-flow updates using Node-RED API v2 revision locking
+- Low-blast-radius single-flow updates using `PUT /flow/:id`
+- Optional full-flow single-tab updates using Node-RED API v2 revision locking
 - Optional full-flow updates using revision locking
 - Read-only mode for safe first use
 - Bearer token, full Authorization header, and Basic auth support
@@ -181,7 +182,8 @@ await server.start();
 - `get-flows` - Get all flows
 - `update-flows` - Safely update the complete flow set with optimistic locking
 - `get-flow` - Get a specific flow by ID
-- `update-flow` - Safely update a specific flow by ID
+- `update-flow` - Update a specific flow by ID using direct `PUT /flow/:id`
+- `update-flow-full` - Update a specific flow by replacing it inside the complete `/flows` payload
 - `list-tabs` - List all tabs
 - `create-flow` - Create a new flow tab
 - `delete-flow` - Delete a flow tab
@@ -227,7 +229,9 @@ Backup names must use only letters, numbers, underscores, and hyphens. Backup fi
 
 - Start with `MCP_READ_ONLY=true` when connecting an LLM to an important Node-RED instance for the first time.
 - Enable `MCP_AUTO_BACKUP=true` when you want a local flow backup before mutating tools run.
-- `restore-backup-flows`, `update-flows`, and `update-flow` use Node-RED API v2 revision locking to avoid overwriting concurrent changes silently.
+- `update-flow` limits writes to the selected flow by using `PUT /flow/:id`; it does not rewrite the complete flow set.
+- `restore-backup-flows`, `update-flows`, and `update-flow-full` use Node-RED API v2 revision locking to avoid overwriting concurrent changes silently.
+- Mutating JSON requests are sent with `application/json; charset=utf-8`.
 - Verbose logs are written to stderr so stdout remains reserved for the MCP stdio transport.
 
 ## License
