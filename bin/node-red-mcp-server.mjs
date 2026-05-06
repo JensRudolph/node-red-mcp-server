@@ -46,7 +46,10 @@ const options = {
       process.env.MCP_BACKUP_AUTO_CLEANUP === undefined
         ? undefined
         : parseBoolean(process.env.MCP_BACKUP_AUTO_CLEANUP),
-    autoBeforeMutations: parseBoolean(process.env.MCP_AUTO_BACKUP),
+    autoBeforeMutations:
+      process.env.MCP_AUTO_BACKUP === undefined
+        ? undefined
+        : parseBoolean(process.env.MCP_AUTO_BACKUP),
   },
 };
 
@@ -125,8 +128,8 @@ Options:
   --timeout <ms>            Node-RED request timeout in milliseconds
   -v, --verbose             Enable verbose logging
   --read-only               Register only tools that do not mutate Node-RED
-  --no-backups              Disable local backup tools
-  --auto-backup             Create a flow backup before mutating tools
+  --no-backups              Disable local backup tools; mutating tools will be blocked
+  --auto-backup             Create a flow backup before mutating tools (default)
   --backup-path <path>      Custom backup directory path
   --max-backups <number>    Maximum number of backups to keep (default: 10)
   -h, --help               Show this help message
@@ -146,7 +149,7 @@ Environment Variables:
   MCP_BACKUP_PATH          Custom backup directory path
   MCP_MAX_BACKUPS          Maximum number of backups to keep
   MCP_BACKUP_AUTO_CLEANUP  Remove old backups when the limit is exceeded
-  MCP_AUTO_BACKUP          Create a flow backup before mutating tools
+  MCP_AUTO_BACKUP          Create a flow backup before mutating tools (default: true)
 `);
     process.exit(0);
   } else if (arg === "--version" || arg === "-V") {
