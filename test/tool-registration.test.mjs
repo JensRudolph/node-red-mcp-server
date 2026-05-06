@@ -26,9 +26,21 @@ test("read-only flow registration excludes mutating tools", () => {
   assert.equal(names.includes("get-flow"), true);
   assert.equal(names.includes("update-flows"), false);
   assert.equal(names.includes("update-flow"), false);
+  assert.equal(names.includes("update-flow-full"), false);
   assert.equal(names.includes("create-flow"), false);
   assert.equal(names.includes("delete-flow"), false);
   assert.equal(names.includes("set-flows-state"), false);
+});
+
+test("writable flow registration includes direct and full update tools", () => {
+  const names = collectToolNames(registerFlowTools, {
+    readOnly: false,
+    backup: { enabled: false },
+  });
+
+  assert.equal(names.includes("update-flow"), true);
+  assert.equal(names.includes("update-flow-full"), true);
+  assert.equal(names.includes("update-flows"), true);
 });
 
 test("read-only backup registration excludes restore tool", () => {

@@ -1,7 +1,44 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { replaceFlowInCompleteFlows } from "../lib/flow-utils.mjs";
+import {
+  buildDirectFlowUpdatePayload,
+  replaceFlowInCompleteFlows,
+} from "../lib/flow-utils.mjs";
+
+test("buildDirectFlowUpdatePayload normalizes single-flow updates", () => {
+  const payload = buildDirectFlowUpdatePayload("tab-a", {
+    label: "Kueche",
+    nodes: [{ id: "inject-a", type: "inject" }],
+  });
+
+  assert.deepEqual(payload, {
+    id: "tab-a",
+    label: "Kueche",
+    nodes: [{ id: "inject-a", type: "inject", z: "tab-a" }],
+    configs: [],
+  });
+});
+
+test("buildDirectFlowUpdatePayload rejects members from other flows", () => {
+  assert.throws(
+    () =>
+      buildDirectFlowUpdatePayload("tab-a", {
+        nodes: [{ id: "inject-b", type: "inject", z: "tab-b" }],
+        configs: [],
+      }),
+    /belongs to flow/
+  );
+
+  assert.throws(
+    () =>
+      buildDirectFlowUpdatePayload("tab-a", {
+        nodes: [],
+        configs: [{ id: "cfg-b", type: "mqtt-broker", z: "tab-b" }],
+      }),
+    /belongs to flow/
+  );
+});
 
 test("replaceFlowInCompleteFlows keeps tab order and replaces flow members", () => {
   const flows = [
