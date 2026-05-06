@@ -51,6 +51,7 @@ test("read-only backup registration excludes restore tool", () => {
 
   assert.equal(names.includes("backup-flows"), true);
   assert.equal(names.includes("get-backup-flows"), true);
+  assert.equal(names.includes("get-backup-diff"), true);
   assert.equal(names.includes("restore-backup-flows"), false);
 });
 

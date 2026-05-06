@@ -19,7 +19,8 @@ Model Context Protocol (MCP) server for Node-RED. It lets MCP clients such as Cl
 - Optional API path prefix for reverse proxies
 - Configurable Node-RED API request timeout
 - Multi-version flow backup system with checksum validation
-- Optional automatic flow backup before mutating tools
+- Required automatic flow backup before mutating tools
+- Structured per-backup flow diffs for auditing changes
 - Restore flows from a named backup using optimistic locking
 - List installed Node-RED nodes with node names, help content, and module names
 - Install, inspect, enable, or disable Node-RED node modules
@@ -71,7 +72,7 @@ MCP_BACKUPS_ENABLED=true
 MCP_BACKUP_PATH=/custom/backup/path
 MCP_MAX_BACKUPS=10
 MCP_BACKUP_AUTO_CLEANUP=true
-MCP_AUTO_BACKUP=false
+MCP_AUTO_BACKUP=true
 ```
 
 Then run:
@@ -149,8 +150,8 @@ await server.start();
 | `--timeout` | | Node-RED request timeout in milliseconds |
 | `--verbose` | `-v` | Enable verbose logging to stderr |
 | `--read-only` | | Register only tools that do not mutate Node-RED |
-| `--no-backups` | | Disable local backup tools |
-| `--auto-backup` | | Create a flow backup before mutating tools |
+| `--no-backups` | | Disable local backup tools; mutating tools will be blocked |
+| `--auto-backup` | | Create a flow backup before mutating tools (default) |
 | `--backup-path` | | Custom backup directory path |
 | `--max-backups` | | Maximum number of backups to keep |
 | `--help` | `-h` | Show help |
@@ -173,7 +174,7 @@ await server.start();
 | `MCP_BACKUP_PATH` | Custom backup root directory |
 | `MCP_MAX_BACKUPS` | Maximum number of backups to keep |
 | `MCP_BACKUP_AUTO_CLEANUP` | Remove old backups when the limit is exceeded |
-| `MCP_AUTO_BACKUP` | Create a flow backup before mutating tools |
+| `MCP_AUTO_BACKUP` | Create a flow backup before mutating tools (default: `true`; disabling it blocks mutating tools) |
 
 ## MCP Tools
 
@@ -211,10 +212,13 @@ Structured arguments are preferred for mutating flow tools. For backwards compat
 - `backup-flows` - Create a named backup of current flows
 - `list-backups` - List available flow backups
 - `get-backup-flows` - Get flow content from a backup by name
+- `get-backup-diff` - Get a stored backup diff, or generate one against current flows
 - `restore-backup-flows` - Restore flows from a backup using optimistic locking
 - `backup-health` - Check backup system health
 
 Backup names must use only letters, numbers, underscores, and hyphens. Backup files are stored under `.mcp-backups` inside the configured backup root.
+Mutating tools fail closed if the MCP cannot create a required backup first.
+After a successful mutating tool call, the MCP writes `<backup-name>.diff.json` next to the backup and records the diff summary in backup metadata. Use `get-backup-diff` with `format: "summary"` for a compact audit view or `format: "json"` for the full structured diff.
 
 ### Settings Tools
 
@@ -228,7 +232,8 @@ Backup names must use only letters, numbers, underscores, and hyphens. Backup fi
 ## Safety Notes
 
 - Start with `MCP_READ_ONLY=true` when connecting an LLM to an important Node-RED instance for the first time.
-- Enable `MCP_AUTO_BACKUP=true` when you want a local flow backup before mutating tools run.
+- Backups are required before mutating tools run. If a backup cannot be created, the MCP blocks the mutation before calling the Node-RED write endpoint.
+- Successful mutating tools write a structured diff file next to the required backup so later agents can verify the exact added, removed, and modified flow objects.
 - `update-flow` limits writes to the selected flow by using `PUT /flow/:id`; it does not rewrite the complete flow set.
 - `restore-backup-flows`, `update-flows`, and `update-flow-full` use Node-RED API v2 revision locking to avoid overwriting concurrent changes silently.
 - Mutating JSON requests are sent with `application/json; charset=utf-8`.

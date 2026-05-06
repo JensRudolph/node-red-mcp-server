@@ -3,7 +3,13 @@ import test from "node:test";
 import os from "node:os";
 import path from "node:path";
 
-import { analyzeFlows, createBackupName, getPaths } from "../lib/tools/backup.mjs";
+import {
+  analyzeFlows,
+  createBackupName,
+  createMutationBackup,
+  getPaths,
+  restoreBackupFlows,
+} from "../lib/tools/backup.mjs";
 
 test("createBackupName validates names used as file names", () => {
   assert.equal(
@@ -47,5 +53,31 @@ test("getPaths expands backup paths under home directory", () => {
   assert.equal(
     paths.backupDir,
     path.join(os.homedir(), "node-red-backups", ".mcp-backups")
+  );
+});
+
+test("createMutationBackup blocks when backups are disabled", async () => {
+  await assert.rejects(
+    createMutationBackup({ backup: { enabled: false } }, "Before test"),
+    /Mutation blocked: backups are required/
+  );
+});
+
+test("createMutationBackup blocks when automatic mutation backups are disabled", async () => {
+  await assert.rejects(
+    createMutationBackup(
+      { backup: { enabled: true, autoBeforeMutations: false } },
+      "Before test"
+    ),
+    /Mutation blocked: backups are required/
+  );
+});
+
+test("restoreBackupFlows rejects disabling the required safety backup", async () => {
+  await assert.rejects(
+    restoreBackupFlows("missing", { backup: { enabled: true } }, {
+      createSafetyBackup: false,
+    }),
+    /cannot run without a safety backup/
   );
 });
