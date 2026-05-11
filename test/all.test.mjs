@@ -1,4 +1,5 @@
 import "./backup.test.mjs";
+import "./flow-analysis.test.mjs";
 import "./flow-diff.test.mjs";
 import "./flow-utils.test.mjs";
 import "./nodes.test.mjs";
