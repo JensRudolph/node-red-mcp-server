@@ -41,18 +41,29 @@ test("read-only flow registration excludes mutating tools", () => {
   assert.equal(names.includes("set-flows-state"), false);
 });
 
-test("writable flow registration includes direct and full update tools", () => {
+test("writable flow registration excludes full-flow write tools by default", () => {
   const names = collectToolNames(registerFlowTools, {
     readOnly: false,
     backup: { enabled: false },
   });
 
   assert.equal(names.includes("update-flow"), true);
-  assert.equal(names.includes("update-flow-full"), true);
-  assert.equal(names.includes("update-flows"), true);
+  assert.equal(names.includes("update-flow-full"), false);
+  assert.equal(names.includes("update-flows"), false);
   assert.equal(names.includes("clone-flow"), true);
   assert.equal(names.includes("replace-in-flow"), true);
   assert.equal(names.includes("clear-entities-in-flow"), true);
+});
+
+test("writable flow registration can explicitly include full-flow write tools", () => {
+  const names = collectToolNames(registerFlowTools, {
+    readOnly: false,
+    allowFullFlowWrites: true,
+    backup: { enabled: false },
+  });
+
+  assert.equal(names.includes("update-flow-full"), true);
+  assert.equal(names.includes("update-flows"), true);
 });
 
 test("node registration includes structured get-nodes search helper", () => {
@@ -75,6 +86,7 @@ test("read-only backup registration excludes restore tool", () => {
   assert.equal(names.includes("get-backup-flows"), true);
   assert.equal(names.includes("get-backup-diff"), true);
   assert.equal(names.includes("restore-backup-flows"), false);
+  assert.equal(names.includes("undo-last-mutation"), false);
 });
 
 test("disabled backup registration exposes health only", () => {
@@ -84,4 +96,14 @@ test("disabled backup registration exposes health only", () => {
   });
 
   assert.deepEqual(names, ["backup-health"]);
+});
+
+test("writable backup registration includes undo-last-mutation", () => {
+  const names = collectToolNames(registerBackupTools, {
+    readOnly: false,
+    backup: { enabled: true },
+  });
+
+  assert.equal(names.includes("restore-backup-flows"), true);
+  assert.equal(names.includes("undo-last-mutation"), true);
 });

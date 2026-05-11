@@ -4,7 +4,10 @@ import test from "node:test";
 import {
   auditEntitiesInFlow,
   cloneFlowConfig,
+  evaluateMutationConfirmation,
+  extractConfigRefCatalogFromNodeHtml,
   filterNodes,
+  limitedList,
   searchNodeFields,
   selectFlows,
   validateFlowPayload,
@@ -28,6 +31,86 @@ test("validateFlowPayload reports structural flow problems", () => {
   assert.equal(result.errors.some((item) => item.code === "wrong_z"), true);
   assert.equal(result.errors.some((item) => item.code === "missing_group_member"), true);
   assert.equal(result.errors.some((item) => item.code === "missing_group"), true);
+});
+
+test("validateFlowPayload uses node metadata config-reference catalog when available", () => {
+  const result = validateFlowPayload(
+    [
+      { id: "tab-a", type: "tab", label: "Flow A" },
+      { id: "mqtt-a", type: "mqtt in", z: "tab-a", broker: "missing-broker" },
+    ],
+    {
+      configRefCatalog: {
+        "mqtt in": {
+          broker: "mqtt-broker",
+        },
+      },
+    }
+  );
+
+  assert.equal(result.valid, true);
+  assert.equal(result.warnings.some((item) => item.source === "node_metadata"), true);
+  assert.equal(result.warnings[0].expectedType, "mqtt-broker");
+});
+
+test("extractConfigRefCatalogFromNodeHtml extracts defaults with registered config node refs", () => {
+  const html = `
+<script>
+RED.nodes.registerType('mqtt-broker', {
+  category: 'config',
+  defaults: {
+    name: { value: '' }
+  }
+});
+RED.nodes.registerType('mqtt in', {
+  defaults: {
+    name: { value: '' },
+    broker: { type: 'mqtt-broker', required: true },
+    topic: { value: '' },
+    count: { type: 'num', value: 0 }
+  }
+});
+</script>`;
+
+  assert.deepEqual(extractConfigRefCatalogFromNodeHtml(html), {
+    "mqtt in": {
+      broker: "mqtt-broker",
+    },
+  });
+});
+
+test("evaluateMutationConfirmation requires token above threshold", () => {
+  const first = evaluateMutationConfirmation({
+    operation: "replace-in-flow",
+    scope: "tab-a",
+    affectedCount: 51,
+    threshold: 50,
+  });
+
+  assert.equal(first.required, true);
+  assert.equal(first.confirmed, false);
+
+  const second = evaluateMutationConfirmation({
+    operation: "replace-in-flow",
+    scope: "tab-a",
+    affectedCount: 51,
+    threshold: 50,
+    confirmToken: first.confirmToken,
+  });
+
+  assert.equal(second.required, true);
+  assert.equal(second.confirmed, true);
+});
+
+test("limitedList reports truncation without returning every item", () => {
+  const result = limitedList([1, 2, 3], { limit: 2 });
+
+  assert.deepEqual(result, {
+    total: 3,
+    returned: 2,
+    truncated: true,
+    items: [1, 2],
+  });
 });
 
 test("cloneFlowConfig remaps IDs, links, wires, groups and clears matching entities", () => {
@@ -173,4 +256,3 @@ test("selectFlows preserves full output by default and supports selective pagina
   assert.equal(selected.summary.returned, 1);
   assert.deepEqual(selected.flows.map((node) => node.id), ["node-a"]);
 });
-

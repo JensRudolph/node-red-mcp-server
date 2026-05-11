@@ -16,8 +16,11 @@ Model Context Protocol (MCP) server for Node-RED. It lets MCP clients such as Cl
 - Optional full-flow single-tab updates using Node-RED API v2 revision locking
 - Optional full-flow updates using revision locking
 - Flow payload validation and dry-run previews before writes
+- Config-node reference validation using Node-RED node metadata when available
 - Safe flow cloning with ID, wire, link, group, and entity remapping
 - Scoped flow replacements and entity clearing with dry-run diffs
+- Confirm-token protection for large mutations
+- Full `/flows` write tools disabled by default and opt-in only
 - Home Assistant entity audit for flow copies and reviews
 - Read-only mode for safe first use
 - Bearer token, full Authorization header, and Basic auth support
@@ -78,6 +81,9 @@ MCP_BACKUP_PATH=/custom/backup/path
 MCP_MAX_BACKUPS=10
 MCP_BACKUP_AUTO_CLEANUP=true
 MCP_AUTO_BACKUP=true
+MCP_ALLOW_FULL_FLOW_WRITES=false
+MCP_MUTATION_CONFIRM_THRESHOLD=50
+MCP_MAX_RESPONSE_ITEMS=100
 ```
 
 Then run:
@@ -155,6 +161,9 @@ await server.start();
 | `--timeout` | | Node-RED request timeout in milliseconds |
 | `--verbose` | `-v` | Enable verbose logging to stderr |
 | `--read-only` | | Register only tools that do not mutate Node-RED |
+| `--allow-full-flow-writes` | | Register full `/flows` write tools. Last resort only |
+| `--mutation-confirm-threshold` | | Require `confirmToken` above this mutation size |
+| `--max-response-items` | | Default cap for large structured response lists |
 | `--no-backups` | | Disable local backup tools; mutating tools will be blocked |
 | `--auto-backup` | | Create a flow backup before mutating tools (default) |
 | `--backup-path` | | Custom backup directory path |
@@ -175,6 +184,9 @@ await server.start();
 | `NODE_MCP_PREFIX` | API path prefix for reverse proxies |
 | `MCP_VERBOSE` | Enable verbose logging |
 | `MCP_READ_ONLY` | Register only non-mutating Node-RED tools |
+| `MCP_ALLOW_FULL_FLOW_WRITES` | Register full `/flows` write tools. Default: `false` |
+| `MCP_MUTATION_CONFIRM_THRESHOLD` | Require `confirmToken` above this mutation size. Default: `50` |
+| `MCP_MAX_RESPONSE_ITEMS` | Default cap for large structured response lists. Default: `100` |
 | `MCP_BACKUPS_ENABLED` | Enable or disable local backup tools |
 | `MCP_BACKUP_PATH` | Custom backup root directory |
 | `MCP_MAX_BACKUPS` | Maximum number of backups to keep |
@@ -187,7 +199,7 @@ await server.start();
 
 - `get-flows` - Get all flows
 - `get-flows` with filters - Get smaller selective responses by `flowId`, `flowLabel`, `types`, `limit`, and `offset`
-- `update-flows` - Safely update the complete flow set with optimistic locking
+- `update-flows` - Last-resort complete flow-set update with optimistic locking; only registered when full-flow writes are explicitly enabled
 - `get-flow` - Get a specific flow by ID
 - `get-subflow` - Get a specific subflow and its internal nodes
 - `validate-flow-payload` - Validate IDs, wires, links, groups, `z` references, config refs, and entity fields before writing
@@ -195,7 +207,7 @@ await server.start();
 - `entity-audit` - Extract and categorize Home Assistant entities in a live flow or provided payload
 - `diff-flow-against-source` - Compare a source and target flow with optional cloned ID mapping
 - `update-flow` - Update a specific flow by ID using direct `PUT /flow/:id`
-- `update-flow-full` - Update a specific flow by replacing it inside the complete `/flows` payload
+- `update-flow-full` - Last-resort single-flow replacement through the complete `/flows` payload; only registered when full-flow writes are explicitly enabled
 - `list-tabs` - List all tabs
 - `create-flow` - Create a new flow tab
 - `clone-flow` - Clone a flow with deterministic ID remapping, replacements, entity clearing, validation, and dry-run support
@@ -226,9 +238,10 @@ Structured arguments are preferred for mutating flow tools. For backwards compat
 
 - `backup-flows` - Create a named backup of current flows
 - `list-backups` - List available flow backups
-- `get-backup-flows` - Get flow content from a backup by name
+- `get-backup-flows` - Get flow content from a backup by name, with optional summary/filter/pagination arguments
 - `get-backup-diff` - Get a stored backup diff, or generate one against current flows
-- `restore-backup-flows` - Restore flows from a backup using optimistic locking
+- `restore-backup-flows` - Restore flows from a backup using optimistic locking; supports dry-run and large-restore confirmation
+- `undo-last-mutation` - Preview or restore the latest automatic mutation backup; dry-run is default
 - `backup-health` - Check backup system health
 
 Backup names must use only letters, numbers, underscores, and hyphens. Backup files are stored under `.mcp-backups` inside the configured backup root.
@@ -250,6 +263,9 @@ After a successful mutating tool call, the MCP writes `<backup-name>.diff.json` 
 - Backups are required before mutating tools run. If a backup cannot be created, the MCP blocks the mutation before calling the Node-RED write endpoint.
 - Prefer dry-run tools first. `clone-flow`, `replace-in-flow`, and `clear-entities-in-flow` default to `dryRun=true`; set `dryRun=false` only after reviewing the returned changes and validation result.
 - Prefer scoped tools over raw complete-flow edits. `clone-flow`, `replace-in-flow`, `clear-entities-in-flow`, `update-flow`, and `validate-flow-payload` keep the blast radius much smaller than full `/flows` rewrites.
+- Full `/flows` write tools are disabled unless `MCP_ALLOW_FULL_FLOW_WRITES=true` or `--allow-full-flow-writes` is set. Treat them as last-resort tools.
+- Large mutations return `requiresConfirmation: true` with a deterministic `confirmToken`. Re-run with that token only after reviewing the preview.
+- Large structured responses are capped by default. Use tool-specific `includePayload`, `includeChanges`, `limitChanges`, or `limitItems` options when detailed output is really needed.
 - Successful mutating tools write a structured diff file next to the required backup so later agents can verify the exact added, removed, and modified flow objects.
 - `update-flow` limits writes to the selected flow by using `PUT /flow/:id`; it does not rewrite the complete flow set.
 - `restore-backup-flows`, `update-flows`, and `update-flow-full` use Node-RED API v2 revision locking to avoid overwriting concurrent changes silently.
