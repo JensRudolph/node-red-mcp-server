@@ -91,6 +91,50 @@ zurueckgeben und optional ein Mapping der alten zu den neuen IDs liefern.
 
 ## Gewuenschte MCP-Features
 
+### Ergaenzung aus `GES - NINA neu`
+
+Beim Analysieren und Kopieren des Flows `GES - NINA` nach `GES - NINA neu`
+waren die vorhandenen MCP-Tools grundsaetzlich ausreichend, um den neuen Flow
+anzulegen. Die Arbeit wurde aber unnoetig schwer, weil mehrere zielgerichtete
+Lesewerkzeuge fehlen oder erst ueber Tool-Discovery sichtbar wurden.
+
+Wichtig: Das Abschneiden der Ausgabe scheint nicht im MCP-Server selbst zu
+passieren. `get_flows` serialisiert aktuell die komplette Flow-Liste als
+formatiertes JSON. Bei grossen Node-RED-Installationen ist diese Antwort aber so
+umfangreich, dass die Tool-Ausgabe im Client bzw. in der Weitergabe an den
+Agenten gekuerzt werden kann. Dadurch kommen in der Analyse nur Ausschnitte der
+Gesamtdefinition an, obwohl der Server grundsaetzlich die volle Antwort liefert.
+
+Konkret hilfreich waeren:
+
+- `get_subflow(id)`
+  - liefert eine Subflow-Definition inklusive interner Nodes
+  - vermeidet grosse `get_flows`-Ausgaben, wenn nur ein Subflow relevant ist
+  - Beispiel: gezieltes Pruefen des Subflows `Benachrichtigung`
+
+- `get_nodes` mit kombinierbaren Filtern
+  - Filter nach `flowId`, `flowLabel`, `nodeType`, `name`, `entityId`,
+    `subflowId` und beliebigen Properties
+  - ersetzt sehr breite Tools wie `find_nodes_by_type`, die bei vielen Nodes
+    schnell zu grosse Ausgaben erzeugen
+
+- paginierte oder selektive `get_flows`-Ausgabe
+  - z. B. `includeTabs`, `includeConfigNodes`, `flowId`, `types`, `limit`,
+    `offset`
+  - verhindert abgeschnittene Antworten bei grossen Node-RED-Installationen
+
+- gezielte Suche innerhalb eines Flow-Tabs
+  - Suche nur in einem konkreten Tab statt ueber alle Flows
+  - Rueckgabe mit Node-ID, Node-Type, Feldpfad und Trefferwert
+
+Nutzen:
+
+- weniger Bedarf fuer direkte Node-RED-Admin-API-Aufrufe
+- kleinere, belastbarere MCP-Antworten
+- bessere Grundlage fuer Review, Refactoring und gezielte Flow-Kopien
+- weniger Risiko, aus abgeschnittenen Gesamtausgaben falsche Schluesse zu
+  ziehen
+
 ### 1. `clone_flow`
 
 Ein dediziertes Tool zum Kopieren eines bestehenden Node-RED-Flows.
