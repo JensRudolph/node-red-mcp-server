@@ -11,9 +11,14 @@ Model Context Protocol (MCP) server for Node-RED. It lets MCP clients such as Cl
 ## Features
 
 - Retrieve and update Node-RED flows through MCP
+- Selective flow reads to avoid oversized responses on large installations
 - Low-blast-radius single-flow updates using `PUT /flow/:id`
 - Optional full-flow single-tab updates using Node-RED API v2 revision locking
 - Optional full-flow updates using revision locking
+- Flow payload validation and dry-run previews before writes
+- Safe flow cloning with ID, wire, link, group, and entity remapping
+- Scoped flow replacements and entity clearing with dry-run diffs
+- Home Assistant entity audit for flow copies and reviews
 - Read-only mode for safe first use
 - Bearer token, full Authorization header, and Basic auth support
 - Optional API path prefix for reverse proxies
@@ -181,12 +186,21 @@ await server.start();
 ### Flow Tools
 
 - `get-flows` - Get all flows
+- `get-flows` with filters - Get smaller selective responses by `flowId`, `flowLabel`, `types`, `limit`, and `offset`
 - `update-flows` - Safely update the complete flow set with optimistic locking
 - `get-flow` - Get a specific flow by ID
+- `get-subflow` - Get a specific subflow and its internal nodes
+- `validate-flow-payload` - Validate IDs, wires, links, groups, `z` references, config refs, and entity fields before writing
+- `dry-run-create-flow` - Preview flow creation without writing to Node-RED
+- `entity-audit` - Extract and categorize Home Assistant entities in a live flow or provided payload
+- `diff-flow-against-source` - Compare a source and target flow with optional cloned ID mapping
 - `update-flow` - Update a specific flow by ID using direct `PUT /flow/:id`
 - `update-flow-full` - Update a specific flow by replacing it inside the complete `/flows` payload
 - `list-tabs` - List all tabs
 - `create-flow` - Create a new flow tab
+- `clone-flow` - Clone a flow with deterministic ID remapping, replacements, entity clearing, validation, and dry-run support
+- `replace-in-flow` - Perform scoped string/regex replacements in one flow; dry-run is default
+- `clear-entities-in-flow` - Neutralize matching Home Assistant entity assignments in one flow; dry-run is default
 - `delete-flow` - Delete a flow tab
 - `get-flows-state` - Get deployment state
 - `set-flows-state` - Change deployment state
@@ -205,7 +219,8 @@ Structured arguments are preferred for mutating flow tools. For backwards compat
 - `toggle-node-module` - Enable or disable a node module
 - `toggle-node-module-set` - Enable or disable a node module set
 - `find-nodes-by-type` - Locate nodes by type
-- `search-nodes` - Find nodes by name or property
+- `search-nodes` - Find structured field-level matches with optional flow, node type, name, entity, and property filters
+- `get-nodes` - Retrieve nodes with combinable filters and pagination
 
 ### Backup Tools
 
@@ -233,6 +248,8 @@ After a successful mutating tool call, the MCP writes `<backup-name>.diff.json` 
 
 - Start with `MCP_READ_ONLY=true` when connecting an LLM to an important Node-RED instance for the first time.
 - Backups are required before mutating tools run. If a backup cannot be created, the MCP blocks the mutation before calling the Node-RED write endpoint.
+- Prefer dry-run tools first. `clone-flow`, `replace-in-flow`, and `clear-entities-in-flow` default to `dryRun=true`; set `dryRun=false` only after reviewing the returned changes and validation result.
+- Prefer scoped tools over raw complete-flow edits. `clone-flow`, `replace-in-flow`, `clear-entities-in-flow`, `update-flow`, and `validate-flow-payload` keep the blast radius much smaller than full `/flows` rewrites.
 - Successful mutating tools write a structured diff file next to the required backup so later agents can verify the exact added, removed, and modified flow objects.
 - `update-flow` limits writes to the selected flow by using `PUT /flow/:id`; it does not rewrite the complete flow set.
 - `restore-backup-flows`, `update-flows`, and `update-flow-full` use Node-RED API v2 revision locking to avoid overwriting concurrent changes silently.
