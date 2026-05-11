@@ -33,6 +33,15 @@ const options = {
   ),
   verbose: parseBoolean(process.env.MCP_VERBOSE),
   readOnly: parseBoolean(process.env.MCP_READ_ONLY),
+  allowFullFlowWrites: parseBoolean(process.env.MCP_ALLOW_FULL_FLOW_WRITES),
+  mutationConfirmationThreshold: parsePositiveInteger(
+    process.env.MCP_MUTATION_CONFIRM_THRESHOLD,
+    "MCP_MUTATION_CONFIRM_THRESHOLD"
+  ),
+  maxResponseItems: parsePositiveInteger(
+    process.env.MCP_MAX_RESPONSE_ITEMS,
+    "MCP_MAX_RESPONSE_ITEMS"
+  ),
   backup: {
     enabled:
       process.env.MCP_BACKUPS_ENABLED === undefined
@@ -99,6 +108,20 @@ for (let i = 0; i < args.length; i++) {
     options.verbose = true;
   } else if (arg === "--read-only") {
     options.readOnly = true;
+  } else if (arg === "--allow-full-flow-writes") {
+    options.allowFullFlowWrites = true;
+  } else if (arg === "--mutation-confirm-threshold") {
+    options.mutationConfirmationThreshold = parsePositiveInteger(
+      readOptionValue(i, arg),
+      "--mutation-confirm-threshold"
+    );
+    i++;
+  } else if (arg === "--max-response-items") {
+    options.maxResponseItems = parsePositiveInteger(
+      readOptionValue(i, arg),
+      "--max-response-items"
+    );
+    i++;
   } else if (arg === "--no-backups") {
     options.backup.enabled = false;
   } else if (arg === "--auto-backup") {
@@ -128,6 +151,9 @@ Options:
   --timeout <ms>            Node-RED request timeout in milliseconds
   -v, --verbose             Enable verbose logging
   --read-only               Register only tools that do not mutate Node-RED
+  --allow-full-flow-writes  Register full /flows write tools (last resort)
+  --mutation-confirm-threshold <n>  Require confirmToken above this mutation size (default: 50)
+  --max-response-items <n>  Default cap for large structured tool response lists (default: 100)
   --no-backups              Disable local backup tools; mutating tools will be blocked
   --auto-backup             Create a flow backup before mutating tools (default)
   --backup-path <path>      Custom backup directory path
@@ -145,6 +171,9 @@ Environment Variables:
   NODE_MCP_PREFIX          API path prefix for reverse proxies
   MCP_VERBOSE              Enable verbose logging
   MCP_READ_ONLY            Register only tools that do not mutate Node-RED
+  MCP_ALLOW_FULL_FLOW_WRITES Register full /flows write tools (default: false)
+  MCP_MUTATION_CONFIRM_THRESHOLD Confirm-token threshold for large mutations
+  MCP_MAX_RESPONSE_ITEMS   Default cap for large structured response lists
   MCP_BACKUPS_ENABLED      Enable local backup tools
   MCP_BACKUP_PATH          Custom backup directory path
   MCP_MAX_BACKUPS          Maximum number of backups to keep
