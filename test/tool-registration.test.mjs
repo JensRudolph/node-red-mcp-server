@@ -26,12 +26,20 @@ test("read-only flow registration excludes mutating tools", () => {
   assert.equal(names.includes("get-flows"), true);
   assert.equal(names.includes("get-flow"), true);
   assert.equal(names.includes("get-subflow"), true);
+  assert.equal(names.includes("list-subflows"), true);
+  assert.equal(names.includes("subflow-usage"), true);
+  assert.equal(names.includes("validate-subflow-payload"), true);
+  assert.equal(names.includes("dry-run-create-subflow"), true);
+  assert.equal(names.includes("dry-run-update-subflow"), true);
   assert.equal(names.includes("validate-flow-payload"), true);
   assert.equal(names.includes("dry-run-create-flow"), true);
   assert.equal(names.includes("entity-audit"), true);
   assert.equal(names.includes("diff-flow-against-source"), true);
   assert.equal(names.includes("update-flows"), false);
   assert.equal(names.includes("update-flow"), false);
+  assert.equal(names.includes("create-subflow"), false);
+  assert.equal(names.includes("update-subflow"), false);
+  assert.equal(names.includes("clone-subflow"), false);
   assert.equal(names.includes("update-flow-full"), false);
   assert.equal(names.includes("create-flow"), false);
   assert.equal(names.includes("clone-flow"), false);
@@ -48,9 +56,12 @@ test("writable flow registration excludes full-flow write tools by default", () 
   });
 
   assert.equal(names.includes("update-flow"), true);
+  assert.equal(names.includes("create-subflow"), true);
+  assert.equal(names.includes("update-subflow"), true);
   assert.equal(names.includes("update-flow-full"), false);
   assert.equal(names.includes("update-flows"), false);
   assert.equal(names.includes("clone-flow"), true);
+  assert.equal(names.includes("clone-subflow"), true);
   assert.equal(names.includes("replace-in-flow"), true);
   assert.equal(names.includes("clear-entities-in-flow"), true);
 });
