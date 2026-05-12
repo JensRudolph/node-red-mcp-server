@@ -202,15 +202,23 @@ await server.start();
 - `update-flows` - Last-resort complete flow-set update with optimistic locking; only registered when full-flow writes are explicitly enabled
 - `get-flow` - Get a specific flow by ID
 - `get-subflow` - Get a specific subflow and its internal nodes
+- `list-subflows` - List subflows with internal node counts and instance counts
+- `subflow-usage` - Find all instances of one subflow across flow tabs
 - `validate-flow-payload` - Validate IDs, wires, links, groups, `z` references, config refs, and entity fields before writing
+- `validate-subflow-payload` - Validate a subflow payload, including `in`, `out`, and `status` references
 - `dry-run-create-flow` - Preview flow creation without writing to Node-RED
+- `dry-run-create-subflow` - Preview creating a subflow through `PUT /flow/global`
+- `dry-run-update-subflow` - Preview replacing a subflow through `PUT /flow/global`
 - `entity-audit` - Extract and categorize Home Assistant entities in a live flow or provided payload
 - `diff-flow-against-source` - Compare a source and target flow with optional cloned ID mapping
 - `update-flow` - Update a specific flow by ID using direct `PUT /flow/:id`
+- `create-subflow` - Create a new subflow through scoped `PUT /flow/global`
+- `update-subflow` - Replace one subflow through scoped `PUT /flow/global`
 - `update-flow-full` - Last-resort single-flow replacement through the complete `/flows` payload; only registered when full-flow writes are explicitly enabled
 - `list-tabs` - List all tabs
 - `create-flow` - Create a new flow tab
 - `clone-flow` - Clone a flow with deterministic ID remapping, replacements, entity clearing, validation, and dry-run support
+- `clone-subflow` - Clone a subflow with deterministic ID remapping and scoped `PUT /flow/global` write
 - `replace-in-flow` - Perform scoped string/regex replacements in one flow; dry-run is default
 - `clear-entities-in-flow` - Neutralize matching Home Assistant entity assignments in one flow; dry-run is default
 - `delete-flow` - Delete a flow tab
@@ -262,12 +270,13 @@ After a successful mutating tool call, the MCP writes `<backup-name>.diff.json` 
 - Start with `MCP_READ_ONLY=true` when connecting an LLM to an important Node-RED instance for the first time.
 - Backups are required before mutating tools run. If a backup cannot be created, the MCP blocks the mutation before calling the Node-RED write endpoint.
 - Prefer dry-run tools first. `clone-flow`, `replace-in-flow`, and `clear-entities-in-flow` default to `dryRun=true`; set `dryRun=false` only after reviewing the returned changes and validation result.
-- Prefer scoped tools over raw complete-flow edits. `clone-flow`, `replace-in-flow`, `clear-entities-in-flow`, `update-flow`, and `validate-flow-payload` keep the blast radius much smaller than full `/flows` rewrites.
+- Prefer scoped tools over raw complete-flow edits. `clone-flow`, `create-subflow`, `clone-subflow`, `replace-in-flow`, `clear-entities-in-flow`, `update-flow`, `update-subflow`, `validate-flow-payload`, and `validate-subflow-payload` keep the blast radius much smaller than full `/flows` rewrites.
 - Full `/flows` write tools are disabled unless `MCP_ALLOW_FULL_FLOW_WRITES=true` or `--allow-full-flow-writes` is set. Treat them as last-resort tools.
 - Large mutations return `requiresConfirmation: true` with a deterministic `confirmToken`. Re-run with that token only after reviewing the preview.
 - Large structured responses are capped by default. Use tool-specific `includePayload`, `includeChanges`, `limitChanges`, or `limitItems` options when detailed output is really needed.
 - Successful mutating tools write a structured diff file next to the required backup so later agents can verify the exact added, removed, and modified flow objects.
 - `update-flow` limits writes to the selected flow by using `PUT /flow/:id`; it does not rewrite the complete flow set.
+- `create-subflow`, `update-subflow`, and `clone-subflow` update global Subflow definitions with `PUT /flow/global`; they do not require enabling full `/flows` write tools.
 - `restore-backup-flows`, `update-flows`, and `update-flow-full` use Node-RED API v2 revision locking to avoid overwriting concurrent changes silently.
 - Mutating JSON requests are sent with `application/json; charset=utf-8`.
 - Verbose logs are written to stderr so stdout remains reserved for the MCP stdio transport.
