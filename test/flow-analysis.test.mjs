@@ -33,6 +33,49 @@ test("validateFlowPayload reports structural flow problems", () => {
   assert.equal(result.errors.some((item) => item.code === "missing_group"), true);
 });
 
+test("validateFlowPayload accepts cross-tab link targets when they are known externally", () => {
+  const result = validateFlowPayload(
+    {
+      id: "tab-a",
+      nodes: [
+        {
+          id: "link-out-a",
+          type: "link out",
+          z: "tab-a",
+          links: ["link-in-b"],
+          wires: [],
+        },
+      ],
+      configs: [],
+    },
+    {
+      knownExternalLinkIds: new Set(["link-in-b"]),
+    }
+  );
+
+  assert.equal(result.valid, true);
+  assert.equal(result.errors.some((item) => item.code === "missing_link_target"), false);
+});
+
+test("validateFlowPayload still rejects unknown cross-tab link targets", () => {
+  const result = validateFlowPayload({
+    id: "tab-a",
+    nodes: [
+      {
+        id: "link-out-a",
+        type: "link out",
+        z: "tab-a",
+        links: ["missing-link"],
+        wires: [],
+      },
+    ],
+    configs: [],
+  });
+
+  assert.equal(result.valid, false);
+  assert.equal(result.errors.some((item) => item.code === "missing_link_target"), true);
+});
+
 test("validateFlowPayload uses node metadata config-reference catalog when available", () => {
   const result = validateFlowPayload(
     [
