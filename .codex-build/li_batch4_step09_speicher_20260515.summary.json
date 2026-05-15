@@ -1,0 +1,132 @@
+{
+  "sourceBackupName": "li_batch4_step08_keller_20260515",
+  "targetBackupName": "li_batch4_step09_speicher_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_batch4_step09_speicher_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_batch4_step09_speicher_20260515.flow.json",
+  "flowId": "e83ece8225517574",
+  "flowLabel": "LI - 33 Speicher",
+  "room": "speicher",
+  "profileGroupId": "9f52d7c7ed37188c",
+  "profileSwitchId": "63649eaa61eaaa90",
+  "catchGroupId": "94d3f9bd06347cc7",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "c8aed539dfa703fb",
+    "bca4d6fb5651b7c6",
+    "0e538d41f502bcac",
+    "2ed17094f2151236",
+    "36ac81c4d6a720e5"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "e16b24dad9e0796c",
+        "2ed17094f2151236"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101",
+      "c15c0d046ad4f01c",
+      "d8019068758d8542",
+      "5cf9eaedc9d6d8c0",
+      "a0d03ea452cd263f",
+      "f598531909089778",
+      "a937c7a1ffa3a812",
+      "f1f14dc75064f941",
+      "daf5b89416907340",
+      "30e237ad7304f0e7",
+      "4cc9d296414a273b",
+      "b97efa857e82073f",
+      "6dd5298894da0658",
+      "c8aed539dfa703fb"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4",
+      "78a5f14e17a6cee7",
+      "d4a7a515eca7a86b",
+      "c620d5275444343a",
+      "ad1cd0a2e8de4e59",
+      "39f07532bb5d8ed8",
+      "e8dea46f1bc271ae",
+      "a8b750a913552430",
+      "0e471799c1b02813",
+      "db018e79eea9f069",
+      "4b3a507b2570e84f",
+      "ff398a902261ecd8",
+      "016bf7783b74dc08",
+      "ad336401a2a8dfee",
+      "78518d39bb26f64b",
+      "f730d77922b82165",
+      "628b4794e16ec66c",
+      "f61b5d788216c777",
+      "f047b85c2e3b7b3c",
+      "b5de4fcbc9a9782a",
+      "fd0b567dc92cc057",
+      "a11c44ac72068c4e",
+      "75507f6d8b434284",
+      "9fcbe0682fbe06f1",
+      "9533f4e57e66dfc1",
+      "0e538d41f502bcac",
+      "36ac81c4d6a720e5"
+    ]
+  },
+  "changes": [
+    {
+      "id": "760c66a4946e5474",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "e16b24dad9e0796c",
+      "name": "LI - Speicher Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "63649eaa61eaaa90",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink c8aed539dfa703fb ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks 0e538d41f502bcac, 36ac81c4d6a720e5 ergänzt"
+    }
+  ]
+}

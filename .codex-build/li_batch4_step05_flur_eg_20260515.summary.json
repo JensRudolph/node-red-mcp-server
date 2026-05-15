@@ -1,0 +1,120 @@
+{
+  "sourceBackupName": "li_batch4_step04_bad_eg_20260515",
+  "targetBackupName": "li_batch4_step05_flur_eg_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_batch4_step05_flur_eg_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_batch4_step05_flur_eg_20260515.flow.json",
+  "flowId": "dd61e232cd662fcb",
+  "flowLabel": "LI - 33 Flur EG",
+  "room": "flur_eg",
+  "profileGroupId": "a943f2e449640321",
+  "profileSwitchId": "123ae21f4319c1cb",
+  "catchGroupId": "f88d75fb37932b45",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "30e237ad7304f0e7",
+    "d98976610cb50ab8",
+    "f61b5d788216c777",
+    "b4c9e65bb6b2e829",
+    "f047b85c2e3b7b3c"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "5a2480aafc5865a6",
+        "b4c9e65bb6b2e829"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101",
+      "c15c0d046ad4f01c",
+      "d8019068758d8542",
+      "5cf9eaedc9d6d8c0",
+      "a0d03ea452cd263f",
+      "f598531909089778",
+      "a937c7a1ffa3a812",
+      "f1f14dc75064f941",
+      "daf5b89416907340",
+      "30e237ad7304f0e7"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4",
+      "78a5f14e17a6cee7",
+      "d4a7a515eca7a86b",
+      "c620d5275444343a",
+      "ad1cd0a2e8de4e59",
+      "39f07532bb5d8ed8",
+      "e8dea46f1bc271ae",
+      "a8b750a913552430",
+      "0e471799c1b02813",
+      "db018e79eea9f069",
+      "4b3a507b2570e84f",
+      "ff398a902261ecd8",
+      "016bf7783b74dc08",
+      "ad336401a2a8dfee",
+      "78518d39bb26f64b",
+      "f730d77922b82165",
+      "628b4794e16ec66c",
+      "f61b5d788216c777",
+      "f047b85c2e3b7b3c"
+    ]
+  },
+  "changes": [
+    {
+      "id": "56ded2444fa81cbb",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "5a2480aafc5865a6",
+      "name": "LI - Flur EG Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "123ae21f4319c1cb",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink 30e237ad7304f0e7 ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks f61b5d788216c777, f047b85c2e3b7b3c ergänzt"
+    }
+  ]
+}
