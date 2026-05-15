@@ -1,0 +1,94 @@
+{
+  "sourceBackupName": "before_li_33_hausflur_migration_20260515",
+  "targetBackupName": "li_33_hausflur_migrated_links_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_33_hausflur_migrated_links_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_33_hausflur_migrated_links_20260515.flow.json",
+  "flowId": "58887373f03f37b5",
+  "flowLabel": "LI - 33 Hausflur",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "b3d77cf79e4a0101",
+    "a0fdc4d445dc2b21",
+    "b25b1ec2e0cfd62e",
+    "df27d0e0837958ac",
+    "c7256d10b1de27f4"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "59f19887fc537713",
+        "df27d0e0837958ac"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4"
+    ]
+  },
+  "changes": [
+    {
+      "id": "12e4c2d2587a25a0",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "59f19887fc537713",
+      "name": "LI - Hausflur Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "20b9ed3883fb139d",
+      "name": "Catch Diagnose",
+      "after": "Catch -> SY - Diagnose ergänzt"
+    },
+    {
+      "id": "44c4fb7eda15d7bd",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink b3d77cf79e4a0101 ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks b25b1ec2e0cfd62e, c7256d10b1de27f4 ergänzt"
+    }
+  ]
+}

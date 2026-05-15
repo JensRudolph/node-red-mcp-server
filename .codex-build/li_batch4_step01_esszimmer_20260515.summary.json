@@ -1,0 +1,108 @@
+{
+  "sourceBackupName": "before_li_batch4_20260515",
+  "targetBackupName": "li_batch4_step01_esszimmer_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_batch4_step01_esszimmer_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_batch4_step01_esszimmer_20260515.flow.json",
+  "flowId": "46b22075e4fd2912",
+  "flowLabel": "LI - Esszimmer",
+  "room": "esszimmer",
+  "profileGroupId": "0130600e204566bf",
+  "profileSwitchId": "79e441c4cc19edb5",
+  "catchGroupId": "e9bfedb7101e21a4",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "f598531909089778",
+    "e70c29f7a3769f9d",
+    "db018e79eea9f069",
+    "baafcd031ed469e1",
+    "4b3a507b2570e84f"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "1704ff6b03f091b4",
+        "baafcd031ed469e1"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101",
+      "c15c0d046ad4f01c",
+      "d8019068758d8542",
+      "5cf9eaedc9d6d8c0",
+      "a0d03ea452cd263f",
+      "f598531909089778"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4",
+      "78a5f14e17a6cee7",
+      "d4a7a515eca7a86b",
+      "c620d5275444343a",
+      "ad1cd0a2e8de4e59",
+      "39f07532bb5d8ed8",
+      "e8dea46f1bc271ae",
+      "a8b750a913552430",
+      "0e471799c1b02813",
+      "db018e79eea9f069",
+      "4b3a507b2570e84f"
+    ]
+  },
+  "changes": [
+    {
+      "id": "1b5bf41b5e2e7d7e",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "1704ff6b03f091b4",
+      "name": "LI - Esszimmer Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "79e441c4cc19edb5",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink f598531909089778 ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks db018e79eea9f069, 4b3a507b2570e84f ergänzt"
+    }
+  ]
+}

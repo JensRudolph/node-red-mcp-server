@@ -1,0 +1,105 @@
+{
+  "sourceBackupName": "li_batch3_step2_badog_20260515",
+  "targetBackupName": "li_batch3_final_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_batch3_final_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_batch3_final_20260515.flow.json",
+  "flowId": "6a6e7b9bbba46024",
+  "flowLabel": "LI - Familienzimmer",
+  "room": "familienzimmer",
+  "profileGroupId": "4a74a0925872115d",
+  "profileSwitchId": "2b2dee8ac850a2f8",
+  "catchGroupId": "330690251451468a",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "a0d03ea452cd263f",
+    "ea1ffa0753b05100",
+    "a8b750a913552430",
+    "8820d58685119cb6",
+    "0e471799c1b02813"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "f0c570e06104e3be",
+        "8820d58685119cb6"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101",
+      "c15c0d046ad4f01c",
+      "d8019068758d8542",
+      "5cf9eaedc9d6d8c0",
+      "a0d03ea452cd263f"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4",
+      "78a5f14e17a6cee7",
+      "d4a7a515eca7a86b",
+      "c620d5275444343a",
+      "ad1cd0a2e8de4e59",
+      "39f07532bb5d8ed8",
+      "e8dea46f1bc271ae",
+      "a8b750a913552430",
+      "0e471799c1b02813"
+    ]
+  },
+  "changes": [
+    {
+      "id": "ae3cba5661bd7c43",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "f0c570e06104e3be",
+      "name": "LI - Familienzimmer Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "2b2dee8ac850a2f8",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink a0d03ea452cd263f ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks a8b750a913552430, 0e471799c1b02813 ergänzt"
+    }
+  ]
+}

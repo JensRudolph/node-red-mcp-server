@@ -1,0 +1,102 @@
+{
+  "sourceBackupName": "li_batch3_step1_ankleide_20260515",
+  "targetBackupName": "li_batch3_step2_badog_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_batch3_step2_badog_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_batch3_step2_badog_20260515.flow.json",
+  "flowId": "a52501bd98548d1c",
+  "flowLabel": "LI - Badezimmer OG",
+  "room": "badezimmer_og",
+  "profileGroupId": "36fb8e51fbb2c583",
+  "profileSwitchId": "61b2d4de6d062112",
+  "catchGroupId": "6fda59d7e85301d0",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "5cf9eaedc9d6d8c0",
+    "61fd696124174b7d",
+    "39f07532bb5d8ed8",
+    "4feef18375f0d9b4",
+    "e8dea46f1bc271ae"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "abfdab20911d9e34",
+        "4feef18375f0d9b4"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101",
+      "c15c0d046ad4f01c",
+      "d8019068758d8542",
+      "5cf9eaedc9d6d8c0"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4",
+      "78a5f14e17a6cee7",
+      "d4a7a515eca7a86b",
+      "c620d5275444343a",
+      "ad1cd0a2e8de4e59",
+      "39f07532bb5d8ed8",
+      "e8dea46f1bc271ae"
+    ]
+  },
+  "changes": [
+    {
+      "id": "a363bde4242273ad",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "abfdab20911d9e34",
+      "name": "LI - Badezimmer OG Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "61b2d4de6d062112",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink 5cf9eaedc9d6d8c0 ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks 39f07532bb5d8ed8, e8dea46f1bc271ae ergänzt"
+    }
+  ]
+}

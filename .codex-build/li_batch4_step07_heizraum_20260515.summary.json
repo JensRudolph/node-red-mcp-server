@@ -1,0 +1,126 @@
+{
+  "sourceBackupName": "li_batch4_step06_garage_20260515",
+  "targetBackupName": "li_batch4_step07_heizraum_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_batch4_step07_heizraum_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_batch4_step07_heizraum_20260515.flow.json",
+  "flowId": "e4c6fb7309e10e8a",
+  "flowLabel": "LI - 33 Heizraum",
+  "room": "heizraum",
+  "profileGroupId": "9eb44c959abecdec",
+  "profileSwitchId": "6bd032533d264ea2",
+  "catchGroupId": "6fda03c2f0c330e9",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "b97efa857e82073f",
+    "8003d762b3329dee",
+    "a11c44ac72068c4e",
+    "9446d5840e142b9e",
+    "75507f6d8b434284"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "6a22d542a38667fa",
+        "9446d5840e142b9e"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101",
+      "c15c0d046ad4f01c",
+      "d8019068758d8542",
+      "5cf9eaedc9d6d8c0",
+      "a0d03ea452cd263f",
+      "f598531909089778",
+      "a937c7a1ffa3a812",
+      "f1f14dc75064f941",
+      "daf5b89416907340",
+      "30e237ad7304f0e7",
+      "4cc9d296414a273b",
+      "b97efa857e82073f"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4",
+      "78a5f14e17a6cee7",
+      "d4a7a515eca7a86b",
+      "c620d5275444343a",
+      "ad1cd0a2e8de4e59",
+      "39f07532bb5d8ed8",
+      "e8dea46f1bc271ae",
+      "a8b750a913552430",
+      "0e471799c1b02813",
+      "db018e79eea9f069",
+      "4b3a507b2570e84f",
+      "ff398a902261ecd8",
+      "016bf7783b74dc08",
+      "ad336401a2a8dfee",
+      "78518d39bb26f64b",
+      "f730d77922b82165",
+      "628b4794e16ec66c",
+      "f61b5d788216c777",
+      "f047b85c2e3b7b3c",
+      "b5de4fcbc9a9782a",
+      "fd0b567dc92cc057",
+      "a11c44ac72068c4e",
+      "75507f6d8b434284"
+    ]
+  },
+  "changes": [
+    {
+      "id": "761004c6cc7e06b9",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "6a22d542a38667fa",
+      "name": "LI - Heizraum Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "6bd032533d264ea2",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink b97efa857e82073f ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks a11c44ac72068c4e, 75507f6d8b434284 ergänzt"
+    }
+  ]
+}

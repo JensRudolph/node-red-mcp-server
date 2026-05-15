@@ -1,0 +1,96 @@
+{
+  "sourceBackupName": "before_li_hausflur_keller_migration_20260515",
+  "targetBackupName": "li_33_hausflur_keller_migrated_20260515",
+  "targetPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.mcp-backups\\li_33_hausflur_keller_migrated_20260515.json",
+  "payloadPath": "C:\\Users\\jensr\\Documents\\GitHub\\node-red-mcp-server\\.codex-build\\li_33_hausflur_keller_migrated_20260515.flow.json",
+  "flowId": "30542f7ed05f2dd7",
+  "flowLabel": "LI - 33 Hausflur Keller",
+  "room": "hausflur_keller",
+  "profileGroupId": "21fa35a003b71564",
+  "profileSwitchId": "eb0a27e02f48971b",
+  "catchGroupId": "30628cac8e282097",
+  "migratedProfileNodes": 22,
+  "requestBuilderType": "subflow:235e206401c6aa25",
+  "coreSubflowType": "subflow:d5c060879184b636",
+  "addedNodeIds": [
+    "c15c0d046ad4f01c",
+    "feb2c5cca2221306",
+    "78a5f14e17a6cee7",
+    "f07dd6a47ea81ad1",
+    "d4a7a515eca7a86b"
+  ],
+  "remainingProfileApiCallServiceNodes": 0,
+  "validationHints": {
+    "profileSwitchOutputs": 9,
+    "profileSwitchHasCoordinationRequest": true,
+    "debugActive": false,
+    "catchWires": [
+      [
+        "4f63167d583471d2",
+        "f07dd6a47ea81ad1"
+      ]
+    ],
+    "coordLinkTargets": [
+      "1fa6e568f7f9844c"
+    ],
+    "profileDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "catchDiagnoseLinkTargets": [
+      "d1a6761e9b2f40c3"
+    ],
+    "coordinationIncomingLinks": [
+      "f27003218dd4458a",
+      "b3d77cf79e4a0101",
+      "c15c0d046ad4f01c"
+    ],
+    "diagnoseIncomingLinks": [
+      "a4c6e8f0b2d41973",
+      "ec7a4b12a90d3e61",
+      "ba91e03c7d2584af",
+      "a8d02f4e9c13b765",
+      "bc63f8e1d9402a7c",
+      "b25b1ec2e0cfd62e",
+      "c7256d10b1de27f4",
+      "78a5f14e17a6cee7",
+      "d4a7a515eca7a86b"
+    ]
+  },
+  "changes": [
+    {
+      "id": "5afad4c2704d8d8c",
+      "name": "LI core subflow",
+      "before": "subflow:4a6b0b8393918faa",
+      "after": "subflow:d5c060879184b636"
+    },
+    {
+      "id": "4f63167d583471d2",
+      "name": "LI - Hausflur Keller Debug",
+      "before": {
+        "active": true
+      },
+      "after": {
+        "active": false
+      }
+    },
+    {
+      "id": "eb0a27e02f48971b",
+      "name": "Verteiler-In",
+      "after": "LI - Koordination Request Ausgang ergänzt"
+    },
+    {
+      "name": "Request Builder",
+      "after": "22 Profil-Service-Nodes auf subflow:235e206401c6aa25 umgestellt"
+    },
+    {
+      "id": "1fa6e568f7f9844c",
+      "name": "LI - Koordination Eingang",
+      "after": "Ruecklink c15c0d046ad4f01c ergänzt"
+    },
+    {
+      "id": "d1a6761e9b2f40c3",
+      "name": "Diagnose Eingang",
+      "after": "Ruecklinks 78a5f14e17a6cee7, d4a7a515eca7a86b ergänzt"
+    }
+  ]
+}
