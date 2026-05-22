@@ -2,4 +2,6 @@
 
 - Bei Home-Assistant- oder Node-RED-Aufgaben zuerst `tool_search` nutzen, um relevante HA-/Node-RED-MCP-Tools zu laden.
 - In diesem Bereich niemals direkte API-Aufrufe gegen Home Assistant oder Node-RED machen. Alle Home-Assistant- und Node-RED-Aktionen muessen ueber die jeweiligen MCP-Tools laufen.
-- Bei Node-RED-Suche, -Analyse oder -Bearbeitung zuerst ein aktuelles Flow-Backup ueber die Node-RED-MCP-Tools erstellen. Danach bevorzugt im Backup bzw. auf daraus abgeleiteten lokalen Daten suchen, analysieren und Aenderungen vorbereiten, damit lokale Befehle gezielt und reproduzierbar arbeiten koennen.
+- Bei jeder Node-RED-Suche, -Analyse oder -Bearbeitung ist zuerst zwingend ein aktuelles Flow-Backup ueber die Node-RED-MCP-Tools zu erstellen.
+- Nach dem Backup muessen Suche, Analyse und Aenderungsvorbereitung lokal im Backup bzw. in daraus abgeleiteten lokalen Daten erfolgen. Node-RED darf waehrenddessen nicht direkt live veraendert werden.
+- Fertige Node-RED-Aenderungen muessen ueber das vorbereitete Backup und den Node-RED-MCP-Backup-Restore zurueckgeschrieben werden. Vor dem finalen Live-Restore ist zwingend zuerst ein `restore-backup-flows`-Dry-run auszufuehren und zu pruefen; erst danach darf der Live-Restore erfolgen.
