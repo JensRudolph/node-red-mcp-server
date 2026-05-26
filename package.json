@@ -10,6 +10,7 @@
   },
   "scripts": {
     "test": "node test/all.test.mjs",
+    "test:flows": "node scripts/test_light_template_v3_all6_improvements.mjs",
     "start": "node ./bin/node-red-mcp-server.mjs"
   },
   "engines": {
