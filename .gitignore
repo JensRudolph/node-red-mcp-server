@@ -1,6 +1,8 @@
 node_modules/
 .npm-cache/
 .mcp-backups/
+.codex-build/
+/backup_*.json
 npm-debug.log
 yarn-debug.log
 yarn-error.log

@@ -5,14 +5,22 @@
   "license": "MIT",
   "main": "lib/server.mjs",
   "type": "module",
+  "files": [
+    "bin/",
+    "lib/",
+    "docs/*.md",
+    "README.md",
+    "LICENSE"
+  ],
   "bin": {
     "node-red-mcp": "./bin/node-red-mcp-server.mjs"
   },
   "scripts": {
+    "start": "node ./bin/node-red-mcp-server.mjs",
     "test": "node test/all.test.mjs",
+    "docs:node-red": "node scripts/generate_node_red_docs.mjs",
     "test:flows": "node scripts/test_light_template_v3_all6_improvements.mjs",
-    "test:flows:compat": "node scripts/test_light_template_v3_v2_compatibility_matrix.mjs",
-    "start": "node ./bin/node-red-mcp-server.mjs"
+    "test:flows:compat": "node scripts/test_light_template_v3_v2_compatibility_matrix.mjs"
   },
   "engines": {
     "node": ">=18.14.1"

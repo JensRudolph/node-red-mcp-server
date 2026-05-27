@@ -1,8 +1,19 @@
 # Dokumentation
 
-## Node-RED
+Diese Dokumentation ist in Projekt-, Betriebs- und Archivbereiche getrennt.
 
-Die vollstaendige produktive Node-RED-Dokumentation liegt unter [node-red/README.md](node-red/README.md).
+## Projekt
+
+- [Konfiguration](CONFIGURATION.md)
+- [MCP-Tools](MCP_TOOLS.md)
+- [Projektstruktur](PROJECT_STRUCTURE.md)
+- [Entwicklung und Wartung](DEVELOPMENT.md)
+- [Roadmap und Umsetzungshistorie](ROADMAP.md)
+- [Node-RED-Lichtlogik](NODE_RED_LICHTLOGIK.md)
+
+## Node-RED-Instanz
+
+Die produktive Node-RED-Bestandsdokumentation liegt unter [node-red/README.md](node-red/README.md).
 
 Wichtige Einstiege:
 
@@ -16,4 +27,12 @@ Wichtige Einstiege:
 - [Subflows](node-red/SUBFLOWS.md)
 - [Betrieb und Tests](node-red/BETRIEB-UND-TESTS.md)
 
-Die Doku wird aus einem aktuellen Node-RED-Backup mit `scripts/generate_node_red_docs.mjs` erzeugt.
+Die Node-RED-Doku wird aus einem aktuellen MCP-Flow-Backup erzeugt:
+
+```powershell
+npm run docs:node-red -- .mcp-backups\<backup-name>.json docs\node-red
+```
+
+## Archiv
+
+Historische Audit- und Migrationsartefakte liegen unter [archive/README.md](archive/README.md). Sie sind bewusst aus dem Repo-Root herausgezogen, aber weiterhin auffindbar.
