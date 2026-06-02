@@ -28,6 +28,7 @@ node-red-mcp --url http://localhost:1880 --read-only --verbose
 | `--allow-full-flow-writes` |  | Register last-resort complete `/flows` write tools |
 | `--mutation-confirm-threshold <n>` |  | Require confirmation tokens above this mutation size |
 | `--max-response-items <n>` |  | Default cap for large structured response lists |
+| `--max-string-length <n>` |  | Default cap for long string fields in read responses |
 | `--no-backups` |  | Disable local backup tools; mutating tools are blocked |
 | `--auto-backup` |  | Create a backup before mutating tools. This is the default |
 | `--backup-path <path>` |  | Custom backup root directory |
@@ -51,6 +52,7 @@ node-red-mcp --url http://localhost:1880 --read-only --verbose
 | `MCP_ALLOW_FULL_FLOW_WRITES` | Register full `/flows` write tools. Default: `false` |
 | `MCP_MUTATION_CONFIRM_THRESHOLD` | Require confirmation tokens above this mutation size. Default: `50` |
 | `MCP_MAX_RESPONSE_ITEMS` | Default cap for large structured response lists. Default: `100` |
+| `MCP_MAX_STRING_LENGTH` | Default cap for long string fields in read responses. Default: `500` |
 | `MCP_BACKUPS_ENABLED` | Enable backup tools. Mutating tools require this to remain enabled |
 | `MCP_BACKUP_PATH` | Custom backup root directory |
 | `MCP_MAX_BACKUPS` | Maximum number of backups to keep |

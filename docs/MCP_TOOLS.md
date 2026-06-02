@@ -5,6 +5,7 @@ Tool availability depends on server configuration:
 - `MCP_READ_ONLY=true` hides mutating tools.
 - `MCP_ALLOW_FULL_FLOW_WRITES=false` hides complete `/flows` write tools.
 - Backups must be enabled for mutating tools. Mutations fail before writing when the required backup cannot be created.
+- Read tools truncate long string fields by default. Use `includeFullValues=true` for complete values, or tune `maxStringLength` / `MCP_MAX_STRING_LENGTH`.
 
 ## Flow Tools
 
@@ -49,6 +50,8 @@ Tool availability depends on server configuration:
 | `find-nodes-by-type` | read | Locate nodes by exact type |
 | `search-nodes` | read | Search structured field-level matches with flow/type/name/entity/property filters |
 | `get-nodes` | read | Retrieve nodes with combinable filters and pagination |
+| `get-node` | read | Retrieve one live node by ID or selector with projection/truncation |
+| `get-function-context` | read | Return targeted line context from a live or backup function node |
 | `inject` | write | Trigger an inject node |
 | `install-node-module` | write | Install a Node-RED node module |
 | `toggle-node-module` | write | Enable or disable a node module |
@@ -61,6 +64,9 @@ Tool availability depends on server configuration:
 | `backup-flows` | read/write independent | Create a named backup of current flows |
 | `list-backups` | read | List known backups |
 | `get-backup-flows` | read | Read backup contents or selective subsets |
+| `get-backup-node` | read | Retrieve one node from a named backup |
+| `derive-backup` | read/write independent | Create a derived local backup by applying node-level offline edits |
+| `simulate-function-node` | read | Run a backup function node in a local sandbox with supplied context fixtures |
 | `get-backup-diff` | read | Read or regenerate a structured diff for a backup |
 | `backup-health` | read | Check backup configuration, count, age, and corruption indicators |
 | `restore-backup-flows` | write | Restore a named backup with dry-run preview, confirmation, and safety backup |
@@ -79,13 +85,13 @@ Tool availability depends on server configuration:
 For read-only discovery:
 
 ```text
-backup-flows -> get-nodes/search-nodes/get-flow -> validate-flow-payload
+backup-flows -> get-nodes/search-nodes/get-node/get-function-context -> validate-flow-payload
 ```
 
 For scoped flow edits:
 
 ```text
-backup-flows -> replace-in-flow dryRun -> replace-in-flow dryRun=false -> get-backup-diff
+backup-flows -> derive-backup -> get-backup-node/get-function-context -> restore-backup-flows dryRun=true
 ```
 
 For backup restore:

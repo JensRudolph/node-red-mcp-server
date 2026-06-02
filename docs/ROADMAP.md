@@ -9,6 +9,8 @@ Diese Datei ersetzt die fruehere Root-Datei `feature_ideas.md`. Die meisten dort
 | Selektives `get-flows` mit Filtern und Pagination | umgesetzt |
 | `get-subflow`, `list-subflows`, `subflow-usage` | umgesetzt |
 | `get-nodes` und `search-nodes` mit Flow-, Typ-, Entity- und Property-Filtern | umgesetzt |
+| Response-Truncation, Feldprojektion, `get-node` und `get-function-context` | umgesetzt |
+| `get-backup-node`, `derive-backup` und `simulate-function-node` | umgesetzt |
 | `clone-flow` mit ID-, Wire-, Link-, Gruppen- und Entity-Remapping | umgesetzt |
 | `clone-subflow`, `create-subflow`, `update-subflow` ueber scoped `PUT /flow/global` | umgesetzt |
 | `validate-flow-payload` und `validate-subflow-payload` | umgesetzt |

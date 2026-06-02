@@ -11,9 +11,11 @@ This is an enhanced version based on [karavaev-evgeniy/node-red-mcp-server](http
 ## Highlights
 
 - Selective flow and node reads for large Node-RED installations.
+- Default truncation and field projection for large read responses.
 - Read-only mode for safe first connection to important systems.
 - Required automatic flow backup before mutating tools.
 - Dry-run previews for high-risk flow and subflow operations.
+- Offline backup derivation and function-node simulation before restoring changes.
 - Scoped writes through `PUT /flow/:id` and `PUT /flow/global`.
 - Full `/flows` writes disabled by default and available only as an explicit last resort.
 - Flow/subflow validation for IDs, wires, links, groups, config references, and Home Assistant entity fields.

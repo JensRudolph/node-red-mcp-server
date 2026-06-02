@@ -42,6 +42,10 @@ const options = {
     process.env.MCP_MAX_RESPONSE_ITEMS,
     "MCP_MAX_RESPONSE_ITEMS"
   ),
+  maxStringLength: parsePositiveInteger(
+    process.env.MCP_MAX_STRING_LENGTH,
+    "MCP_MAX_STRING_LENGTH"
+  ),
   backup: {
     enabled:
       process.env.MCP_BACKUPS_ENABLED === undefined
@@ -122,6 +126,12 @@ for (let i = 0; i < args.length; i++) {
       "--max-response-items"
     );
     i++;
+  } else if (arg === "--max-string-length") {
+    options.maxStringLength = parsePositiveInteger(
+      readOptionValue(i, arg),
+      "--max-string-length"
+    );
+    i++;
   } else if (arg === "--no-backups") {
     options.backup.enabled = false;
   } else if (arg === "--auto-backup") {
@@ -154,6 +164,7 @@ Options:
   --allow-full-flow-writes  Register full /flows write tools (last resort)
   --mutation-confirm-threshold <n>  Require confirmToken above this mutation size (default: 50)
   --max-response-items <n>  Default cap for large structured tool response lists (default: 100)
+  --max-string-length <n>   Default max string length in read responses (default: 500)
   --no-backups              Disable local backup tools; mutating tools will be blocked
   --auto-backup             Create a flow backup before mutating tools (default)
   --backup-path <path>      Custom backup directory path
@@ -174,6 +185,7 @@ Environment Variables:
   MCP_ALLOW_FULL_FLOW_WRITES Register full /flows write tools (default: false)
   MCP_MUTATION_CONFIRM_THRESHOLD Confirm-token threshold for large mutations
   MCP_MAX_RESPONSE_ITEMS   Default cap for large structured response lists
+  MCP_MAX_STRING_LENGTH    Default max string length in read responses
   MCP_BACKUPS_ENABLED      Enable local backup tools
   MCP_BACKUP_PATH          Custom backup directory path
   MCP_MAX_BACKUPS          Maximum number of backups to keep
