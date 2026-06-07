@@ -33,3 +33,13 @@ Nach dem Backup müssen Suche, Analyse und Änderungsvorbereitung lokal im Backu
 Fertige Node-RED-Änderungen müssen über das vorbereitete Backup und den Node-RED-MCP-Backup-Restore zurückgeschrieben werden.
 
 Vor dem finalen Live-Restore ist zwingend zuerst ein `restore-backup-flows`-Dry-run auszuführen und zu prüfen. Erst danach darf der Live-Restore erfolgen.
+
+## Tests und Regressionen
+
+Vor groesseren oder sicherheitsrelevanten Umbauten sind Regressionstests zu erstellen oder zu erweitern, damit der aktuelle Funktionsumfang als Referenz festgehalten ist.
+
+Diese Tests sollen sowohl die Struktur der betroffenen Flows als auch das fachliche Verhalten pruefen, damit nach Aenderungen klar ist, ob bestehende Logik weiterhin korrekt funktioniert.
+
+Tests werden im Projekt unter `test/` gespeichert und bei Bedarf gegen vorbereitete Backups, lokale Quellen oder eingebettete Function-Bodies ausgefuehrt.
+
+Vor dem Live-Schalten sind zuerst die gezielten Regressionstests und anschliessend die gesamte relevante Testsuite auszufuehren.

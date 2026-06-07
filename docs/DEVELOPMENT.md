@@ -27,7 +27,7 @@ For any live Node-RED search, analysis, or change:
 3. Do search, analysis, and change preparation locally from that backup or derived local data.
 4. Do not call Node-RED or Home Assistant APIs directly.
 5. Write finished flow changes back through prepared backup restore.
-6. Run `restore-backup-flows` with `dryRun: true` first.
+6. Run `restore-backup-flows` first and review the default dry-run result.
 7. Only run live restore after reviewing the dry-run result.
 
 ## Documentation Generation

@@ -61,7 +61,7 @@ Tool availability depends on server configuration:
 
 | Tool | Availability | Purpose |
 | --- | --- | --- |
-| `backup-flows` | read/write independent | Create a named backup of current flows |
+| `backup-flows` | read/write independent | Create a named backup of current flows and return structured metadata |
 | `list-backups` | read | List known backups |
 | `get-backup-flows` | read | Read backup contents or selective subsets |
 | `get-backup-node` | read | Retrieve one node from a named backup |
@@ -69,7 +69,7 @@ Tool availability depends on server configuration:
 | `simulate-function-node` | read | Run a backup function node in a local sandbox with supplied context fixtures |
 | `get-backup-diff` | read | Read or regenerate a structured diff for a backup |
 | `backup-health` | read | Check backup configuration, count, age, and corruption indicators |
-| `restore-backup-flows` | write | Restore a named backup with dry-run preview, confirmation, and safety backup |
+| `restore-backup-flows` | write | Preview by default or restore a named backup with confirmation and safety backup |
 | `undo-last-mutation` | write | Preview or restore the latest automatic mutation backup |
 
 ## Settings and Utility Tools
@@ -91,11 +91,15 @@ backup-flows -> get-nodes/search-nodes/get-node/get-function-context -> validate
 For scoped flow edits:
 
 ```text
-backup-flows -> derive-backup -> get-backup-node/get-function-context -> restore-backup-flows dryRun=true
+backup-flows -> derive-backup -> get-backup-node/get-function-context -> restore-backup-flows
 ```
 
 For backup restore:
 
 ```text
-restore-backup-flows dryRun=true -> inspect diff/confirmation -> restore-backup-flows dryRun=false
+restore-backup-flows -> inspect dry-run diff/confirmation -> restore-backup-flows dryRun=false
 ```
+
+`backup-flows` returns JSON with the backup metadata, checksum, exact size,
+backup file paths, and retention cleanup details. `restore-backup-flows`
+defaults to `dryRun: true`; set `dryRun: false` only after reviewing the preview.

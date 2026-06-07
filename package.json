@@ -19,8 +19,8 @@
     "start": "node ./bin/node-red-mcp-server.mjs",
     "test": "node test/all.test.mjs",
     "docs:node-red": "node scripts/generate_node_red_docs.mjs",
-    "test:flows": "node scripts/test_light_template_v3_all6_improvements.mjs",
-    "test:flows:compat": "node scripts/test_light_template_v3_v2_compatibility_matrix.mjs"
+    "test:flows": "node test/flow-coverage.test.mjs && node scripts/test_light_template_v3_v2_compatibility_matrix.mjs test/fixtures/node-red/current-baseline.json",
+    "test:flows:compat": "node scripts/test_light_template_v3_v2_compatibility_matrix.mjs test/fixtures/node-red/current-baseline.json"
   },
   "engines": {
     "node": ">=18.14.1"

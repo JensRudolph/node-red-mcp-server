@@ -99,7 +99,7 @@ For a local checkout:
 - Mutating tools fail closed when the required backup cannot be created.
 - Prefer `dryRun=true` tools before writing.
 - Prefer scoped tools over complete flow-set rewrites.
-- Use `restore-backup-flows` with `dryRun: true` before live restore.
+- `restore-backup-flows` previews by default; set `dryRun: false` only after review.
 
 ## Development
 
