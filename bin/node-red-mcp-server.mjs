@@ -33,6 +33,7 @@ const options = {
   ),
   verbose: parseBoolean(process.env.MCP_VERBOSE),
   readOnly: parseBoolean(process.env.MCP_READ_ONLY),
+  minimal: parseBoolean(process.env.MCP_MINIMAL),
   allowFullFlowWrites: parseBoolean(process.env.MCP_ALLOW_FULL_FLOW_WRITES),
   mutationConfirmationThreshold: parsePositiveInteger(
     process.env.MCP_MUTATION_CONFIRM_THRESHOLD,
@@ -112,6 +113,8 @@ for (let i = 0; i < args.length; i++) {
     options.verbose = true;
   } else if (arg === "--read-only") {
     options.readOnly = true;
+  } else if (arg === "--minimal") {
+    options.minimal = true;
   } else if (arg === "--allow-full-flow-writes") {
     options.allowFullFlowWrites = true;
   } else if (arg === "--mutation-confirm-threshold") {
