@@ -73,7 +73,7 @@ Backup names must contain only letters, numbers, underscores, and hyphens.
 ## Programmatic API
 
 ```javascript
-import { createServer } from "@supcon-international/node-red-mcp-server";
+import { createServer } from "@jensrudolph/node-red-mcp-server";
 
 const server = createServer({
   nodeRedUrl: "http://localhost:1880",

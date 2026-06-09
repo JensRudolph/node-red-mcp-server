@@ -1,8 +1,8 @@
-[![npm version](https://img.shields.io/npm/v/@supcon-international/node-red-mcp-server.svg)](https://www.npmjs.com/package/@supcon-international/node-red-mcp-server)
-[![npm downloads](https://img.shields.io/npm/dm/@supcon-international/node-red-mcp-server.svg)](https://www.npmjs.com/package/@supcon-international/node-red-mcp-server)
-[![GitHub license](https://img.shields.io/github/license/supcon-international/node-red-mcp-server.svg)](https://github.com/supcon-international/node-red-mcp-server/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@jensrudolph/node-red-mcp-server.svg)](https://www.npmjs.com/package/@jensrudolph/node-red-mcp-server)
+[![npm downloads](https://img.shields.io/npm/dm/@jensrudolph/node-red-mcp-server.svg)](https://www.npmjs.com/package/@jensrudolph/node-red-mcp-server)
+[![GitHub license](https://img.shields.io/github/license/JensRudolph/node-red-mcp-server.svg)](https://github.com/JensRudolph/node-red-mcp-server/blob/main/LICENSE)
 
-# @supcon-international/node-red-mcp-server
+# @jensrudolph/node-red-mcp-server
 
 Model Context Protocol (MCP) server for Node-RED. It lets MCP clients inspect, search, validate, back up, and carefully change Node-RED through the Node-RED Admin API.
 
@@ -25,7 +25,7 @@ This is an enhanced version based on [karavaev-evgeniy/node-red-mcp-server](http
 ## Installation
 
 ```bash
-npm install -g @supcon-international/node-red-mcp-server
+npm install -g @jensrudolph/node-red-mcp-server
 ```
 
 For a local checkout:
@@ -59,7 +59,7 @@ When write access is needed, remove `MCP_READ_ONLY=true` only after confirming b
 {
   "node-red": {
     "command": "npx",
-    "args": ["@supcon-international/node-red-mcp-server", "--read-only"],
+    "args": ["@jensrudolph/node-red-mcp-server", "--read-only"],
     "env": {
       "NODE_RED_URL": "http://your-node-red-url:1880",
       "NODE_RED_TOKEN": "your-token-if-needed"
@@ -87,11 +87,8 @@ For a local checkout:
 
 - [Configuration](docs/CONFIGURATION.md)
 - [MCP tool catalog](docs/MCP_TOOLS.md)
-- [Project structure](docs/PROJECT_STRUCTURE.md)
 - [Development and maintenance](docs/DEVELOPMENT.md)
 - [Roadmap and implementation history](docs/ROADMAP.md)
-- [Generated Node-RED instance documentation](docs/node-red/README.md)
-- [Archive index](docs/archive/README.md)
 
 ## Safety Notes
 
@@ -105,12 +102,7 @@ For a local checkout:
 
 ```bash
 npm test
-npm run docs:node-red -- .mcp-backups/<backup-name>.json docs/node-red
-npm run test:flows
-npm run test:flows:compat
 ```
-
-The flow-specific test scripts require local backup fixtures under `.mcp-backups`; those files are intentionally ignored.
 
 ## License
 
