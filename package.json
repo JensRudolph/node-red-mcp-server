@@ -1,5 +1,5 @@
 {
-  "name": "@supcon-international/node-red-mcp-server",
+  "name": "@jensrudolph/node-red-mcp-server",
   "version": "1.3.4",
   "description": "Model Context Protocol (MCP) server for interacting with Node-RED",
   "license": "MIT",
@@ -38,12 +38,12 @@
   "maintainers": "Zhou Xingyu <zhouxingyu@global.supcon.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/supcon-international/node-red-mcp-server.git"
+    "url": "git+https://github.com/jensrudolph/node-red-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/supcon-international/node-red-mcp-server.git/issues"
+    "url": "https://github.com/jensrudolph/node-red-mcp-server/issues"
   },
-  "homepage": "https://github.com/supcon-international/node-red-mcp-server.git#readme",
+  "homepage": "https://github.com/jensrudolph/node-red-mcp-server#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "axios": "^1.16.0",
