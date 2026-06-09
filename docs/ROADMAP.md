@@ -28,7 +28,6 @@ Diese Datei ersetzt die fruehere Root-Datei `feature_ideas.md`. Die meisten dort
 | Beispielkatalog fuer haeufige Flow-Kopien | Schnellere Bedienung der vorhandenen Clone-/Replace-Tools |
 | CI-Workflow fuer `npm test` und `npm pack --dry-run` | Fruehere Regressionserkennung |
 | Schema-naehere Dokumentation pro Toolargument | Bessere Nutzbarkeit in Clients, die Toolbeschreibungen knapp anzeigen |
-| Konsolidierung alter flow-spezifischer Scripts | Weniger Sonderfalllogik unter `scripts/` |
 | Optionaler Generator fuer Tool-Doku aus registrierten Zod-Schemas | Weniger manuelle Drift zwischen Code und Doku |
 
 ## Historie
